@@ -19,7 +19,7 @@ public class MainActivity  extends BlunoLibrary {
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
 	
-	public enum WizardState{initial, idle, complete};
+	public enum WizardState{initial, idle, error, complete};
 	public enum ResponseState{idle, fatal, bt4le, temp, ec, ph, water, busy};
 
 	@Override
@@ -132,16 +132,18 @@ public class MainActivity  extends BlunoLibrary {
 			String status = j.getString("status");
 			
 			if (status.equalsIgnoreCase("fatal")){
+				wizardState = WizardState.error;
 				//TODO show error
 			} else if (status.equalsIgnoreCase("idle")){
 				wizardState = WizardState.idle;
 			} else {
 				//TODO throw exception for unsupported state.
 			}
-		} else if(WizardState.idle == wizardState){
 			
+		} else if(WizardState.idle == wizardState){
 			//TODO was is a failure or success?
 		} else if(WizardState.complete == wizardState){
+			//we should disregard any other information we receive
 			//TODO what do you want to do now
 		} else {
 			//TODO throw an exception for unsupported wizard state.
