@@ -141,10 +141,38 @@ public class MainActivity  extends BlunoLibrary {
 			}
 			
 		} else if(WizardState.idle == wizardState){
-			//TODO was is a failure or success?
+			String status = j.getString("status");
+			//TODO was is a failure or success?				
+			if (status.equalsIgnoreCase("idle")){
+				wizardState = WizardState.complete;
+				//TODO send start message
+				sendStartMessage();
+			} else if (status.equalsIgnoreCase("fatal")){
+				//TODO show error					
+			} else if (status.equalsIgnoreCase("bt4le")){
+				//TODO Bluetooth communication error / JSON error
+			} else if (status.equalsIgnoreCase("temp")){
+				//TODO Temperature status error
+			}else if (status.equalsIgnoreCase("ec")){
+				//TODO Electric conductivity error
+			} else if (status.equalsIgnoreCase("ph")){
+				//TODO ph sensor error
+			} else if (status.equalsIgnoreCase("water level low")){
+				//TODO sensor is not immersed in water
+			} else if (status.equalsIgnoreCase("busy")){
+				//TODO device is busy
+			}
+			else {
+				//TODO throw exception for unsupported state.
+			}
+			
 		} else if(WizardState.complete == wizardState){
 			//we should disregard any other information we receive
 			//TODO what do you want to do now
+			// Temperature between 0->25 Degrees are green
+			// Temperatures between 25->30 degrees are amber
+			// Temperatures over 30 degrees are red			
+			
 		} else {
 			//TODO throw an exception for unsupported wizard state.
 		}
@@ -158,6 +186,20 @@ public class MainActivity  extends BlunoLibrary {
 		serialReceivedText.append(data);							//append the text into the EditText
 		//The Serial data from the BLUNO may be sub-packaged, so using a buffer to hold the String is a good choice.
 					
+	}
+	
+	private void sendStartMessage() {
+		JSONObject j = new JSONObject();
+		try {
+			j.put("cmd", "test");
+			j.put("session", "AD");	//TODO what do we put in here
+			String gpsData = "";	//TODO get gps data and format it for json
+			j.put("gps_data", gpsData);
+			j.put("time", "");		//Need to get the current time
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		serialSend(j.toString());				//send the data to the BLUNO
 	}
 
 }
