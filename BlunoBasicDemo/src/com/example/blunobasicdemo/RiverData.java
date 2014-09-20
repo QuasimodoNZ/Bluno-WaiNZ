@@ -12,8 +12,8 @@ public class RiverData {
 	
 	float lat,lon;
 	Date readingDate;
-	float temperature;
-	float conductivity;
+	float temperature = Float.NaN;
+	float conductivity = Float.NaN;
 	String ID, session;
 	Context context;
 	
