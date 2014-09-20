@@ -91,20 +91,17 @@ public class MainActivity extends BlunoLibrary {
 			}
 		});
 
-		JSONObject j = null;
-		try {
-			j = new JSONObject("{\"test\":\"succss\"}");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (int i = 0; i < 10; i++) {
+			JSONObject j = null;
+			try {
+				j = new JSONObject("{\"test"+i+"\":\"succss\"}");
+				SubmissionSaver.saveSubmission(j,
+						this);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		serialReceivedText.append(SubmissionSaver.saveSubmission(j, this));
-		
-		serialReceivedText.append(j.toString());
-		
-		serialReceivedText.append(SubmissionSaver.getJson(this));
-		
-
 	}
 
 	protected void onResume() {

@@ -12,9 +12,9 @@ import android.preference.PreferenceManager;
 public class SubmissionSaver {
 	private final static String PREFERENCES_KEY = "submissionData";
 
-	public static String saveSubmission(JSONObject j, Context c) {
+	public static void saveSubmission(JSONObject j, Context c) {
 		// TODO Auto-generated method stub
-		
+
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(c);
 
@@ -24,29 +24,30 @@ public class SubmissionSaver {
 			JSONArray save = new JSONArray(jasonArray);
 
 			save.put(j);
-			
+
 			Editor edit = prefs.edit();
-			
+
 			edit.putString(PREFERENCES_KEY, save.toString());
 
 			if (!edit.commit()) {
-				return "Failed to add to the shared preferences";
 				// TODO report error
 			}
-			return "Succesfully  added data";
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "Ultimate failure";
 	}
 
-	public static String getJson(Context c) {
+	public static JSONArray getJsonArray(Context c) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(c);
-		return prefs.getString(PREFERENCES_KEY, "Fail");
-		// TODO Auto-generated method stub
-
+		try {
+			return new JSONArray(prefs.getString(PREFERENCES_KEY, "Fail"));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
