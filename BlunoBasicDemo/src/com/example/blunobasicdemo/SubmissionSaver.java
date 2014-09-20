@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 public class SubmissionSaver {
@@ -23,10 +24,12 @@ public class SubmissionSaver {
 			JSONArray save = new JSONArray(jasonArray);
 
 			save.put(j);
+			
+			Editor edit = prefs.edit();
+			
+			edit.putString(PREFERENCES_KEY, save.toString());
 
-			prefs.edit().putString(PREFERENCES_KEY, save.toString());
-
-			if (!prefs.edit().commit()) {
+			if (!edit.commit()) {
 				return "Failed to add to the shared preferences";
 				// TODO report error
 			}
