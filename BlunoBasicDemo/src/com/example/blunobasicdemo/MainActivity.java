@@ -63,6 +63,7 @@ public class MainActivity extends BlunoLibrary {
 			public void onClick(View v) {
 				if (connectionState != connectionStateEnum.isConnected) {
 					// TODO tell user not connected
+
 				}
 
 				JSONObject j = new JSONObject();
@@ -94,9 +95,8 @@ public class MainActivity extends BlunoLibrary {
 		for (int i = 0; i < 10; i++) {
 			JSONObject j = null;
 			try {
-				j = new JSONObject("{\"test"+i+"\":\"succss\"}");
-				SubmissionSaver.saveSubmission(j,
-						this);
+				j = new JSONObject("{\"test" + i + "\":\"succss\"}");
+				SubmissionSaver.saveSubmission(j, this);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -167,17 +167,15 @@ public class MainActivity extends BlunoLibrary {
 	}
 
 	@Override
-	public void onSerialReceived(String data) { // Once connection data
-												// received, this function will
-												// be called
-		// TODO Auto-generated method stub
+	public void onSerialReceived(String data) {
+		// Once connection data received, this function will be called
+		
 		JSONObject j;
 		try {
 
 			j = new JSONObject(data);
 
 			if (WizardState.initial == wizardState) {
-				// TODO was is a failure or success?
 				String status = j.getString("status");
 
 				if (status.equalsIgnoreCase("fatal")) {
