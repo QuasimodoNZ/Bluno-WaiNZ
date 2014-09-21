@@ -6,6 +6,7 @@ import org.json.*;
 import android.content.Context;
 import android.location.Location;
 import java.text.ParseException;
+import java.util.Locale;
 
 
 public class RiverData {
@@ -39,7 +40,7 @@ public class RiverData {
 		String conductivity_i = null;
 		String temperature_i = null;
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss a");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss a", Locale.getDefault());
 		try{
 			//Get strings from JSON
 			ID = j.getString("id");
