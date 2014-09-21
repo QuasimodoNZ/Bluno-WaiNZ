@@ -23,6 +23,7 @@ public class MainActivity extends BlunoLibrary {
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
 	private RiverData river;
+	private UserLocationTracker track;
 
 	public enum WizardState {
 		initial, idle, error, complete
@@ -49,6 +50,7 @@ public class MainActivity extends BlunoLibrary {
 		// initial the button for sending the data
 		river = new RiverData(this.getApplicationContext());
 		river.setupGPS();
+		track = river.getLocation();
 		buttonSerialSend.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -127,7 +129,7 @@ public class MainActivity extends BlunoLibrary {
 	}
 	
 	@Override
-	public void onConectionStateChange(connectionStateEnum theConnectionState) {
+	public void onConnectionStateChange(connectionStateEnum theConnectionState) {
 		// Once connection state changes, this function will be called
 		switch (theConnectionState) { 
 		// Four connection state
@@ -199,7 +201,7 @@ public class MainActivity extends BlunoLibrary {
 			} else if (WizardState.complete == wizardState) {
 				// TODO save data
 				SubmissionSaver.saveSubmission(j, this);
-				// we should disregard any other information we receive
+				river = new RiverData(this.getApplicationContext(), j, track);
 				// TODO what do you want to do now
 
 				

@@ -15,8 +15,9 @@ public class RiverData {
 	Date readingDate;
 	float temperature = Float.NaN;
 	float conductivity = Float.NaN;
-	String ID, session;
+	String ID, session, status;
 	Context context;
+	UserLocationTracker track;
 	
 	public RiverData(Context c){
 		//TODO Initial state with no JSON
@@ -28,7 +29,8 @@ public class RiverData {
 		this.RiverDataJSON(c,j);
 	}
 	
-	public void RiverDataComplete(Context c, JSONObject j, UserLocationTracker t){
+	public RiverData(Context c, JSONObject j, UserLocationTracker t){
+		this.track = t;
 		this.context = c;
 		this.RiverDataJSON(c,j);
 		lat = t.getLat();
@@ -43,6 +45,7 @@ public class RiverData {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss a", Locale.getDefault());
 		try{
 			//Get strings from JSON
+			status = j.getString("status");//assuming test status will be in data packet
 			ID = j.getString("id");
 			session = j.getString("session");
 			date_i = j.getString("time");
@@ -71,8 +74,8 @@ public class RiverData {
 	
 	public void setupGPS(){
 		//TODO make sure this shit works
-		UserLocationTracker t = new UserLocationTracker(context);
-		Location l = t.getLocation();
+		track = new UserLocationTracker(context);
+		Location l = track.getLocation();
 		lat = l.getLatitude();
 		lon = l.getLongitude();
 		alt = l.getAltitude();
@@ -96,6 +99,10 @@ public class RiverData {
 	
 	public double getAlt(){
 		return alt;
+	}
+	
+	public UserLocationTracker getLocation(){
+		return track;
 	}
 	
 	public Date getReadingDate() {
