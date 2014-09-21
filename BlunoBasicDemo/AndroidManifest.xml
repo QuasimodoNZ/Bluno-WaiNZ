@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.blunobasicdemo.MainActivity"
+            android:name="com.example.blunobasicdemo.Results"
             android:label="@string/app_name" 
             android:screenOrientation="portrait">
             <intent-filter>
