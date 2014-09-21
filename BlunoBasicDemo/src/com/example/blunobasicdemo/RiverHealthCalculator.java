@@ -34,7 +34,7 @@ public class RiverHealthCalculator{
 			}
 		return 0;
 	}
-	
+
 	public float CompareHealth(){
 		int con = this.CompareConductivity();
 		int tem = this.CompareTemperature();
