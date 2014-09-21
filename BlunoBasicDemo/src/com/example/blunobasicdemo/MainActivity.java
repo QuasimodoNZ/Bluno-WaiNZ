@@ -200,6 +200,16 @@ public class MainActivity extends BlunoLibrary {
 
 			} else if (WizardState.complete == wizardState) {
 				// TODO save data
+				
+				Boolean sent;
+				try{
+					//TODO send to website
+					sent = true;
+				}
+				catch(Exception e){
+					sent = false;
+				}
+				j.put("sent", sent);
 				SubmissionSaver.saveSubmission(j, this);
 				river = new RiverData(this.getApplicationContext(), j, track);
 				// TODO what do you want to do now
