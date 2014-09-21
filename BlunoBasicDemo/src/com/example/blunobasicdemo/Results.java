@@ -1,6 +1,10 @@
 package com.example.blunobasicdemo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,12 +18,22 @@ public class Results extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_results);
-		
+
 		ProgressBar pb = (ProgressBar) this.findViewById(R.id.progressBarToday);
-	
+
 		Animation an = new RotateAnimation(0.0f, 90.0f, 250f, 273f);
 		an.setFillAfter(true);
 		pb.startAnimation(an);
+
+		Intent intent = getIntent();
+		JSONObject jsonObject;
+		try {
+			jsonObject = new JSONObject(
+					intent.getStringExtra(MainActivity.JSON_MESSAGE));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

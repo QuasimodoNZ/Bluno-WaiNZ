@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends BlunoLibrary {
+	public static final String JSON_MESSAGE = "INTENT_MESSAGE_COLLECTED_DATA";
 	private Button buttonScan;
 	private Button buttonSerialSend;
 	private EditText serialSendText;
@@ -201,6 +202,12 @@ public class MainActivity extends BlunoLibrary {
 			} else if (WizardState.complete == wizardState) {
 				// TODO save data
 				SubmissionSaver.saveSubmission(j, this);
+				
+				Intent intent = new Intent(this, Results.class);
+				intent.putExtra(JSON_MESSAGE, j.toString());
+				startActivity(intent);
+				
+				//TODO remove this and add it to the onCreate method in the results activity
 				river = new RiverData(this.getApplicationContext(), j, track);
 				// TODO what do you want to do now
 
