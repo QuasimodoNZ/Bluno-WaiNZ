@@ -37,7 +37,7 @@ public class MainActivity extends BlunoLibrary {
 
 		serialReceivedText = (TextView) findViewById(R.id.serialReveicedText); 
 		// initial the EditText of the received data
-		serialSendText = (EditText) findViewById(R.id.serialSendText); 
+		//serialSendText = (EditText) findViewById(R.id.serialSendText); 
 		// initial the EditText of the sending data
 
 		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend); 
@@ -118,7 +118,7 @@ public class MainActivity extends BlunoLibrary {
 		onDestroyProcess(); 
 		// onDestroy Process by BlunoLibrary
 	}
-
+	
 	@Override
 	public void onConnectionStateChange(connectionStateEnum theConnectionState) {
 		// Once connection state changes, this function will be called
@@ -229,5 +229,7 @@ public class MainActivity extends BlunoLibrary {
 		}
 		serialSend(j.toString()); // send the data to the BLUNO
 	}
+
+	
 
 }
