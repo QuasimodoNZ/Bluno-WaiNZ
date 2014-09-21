@@ -35,30 +35,14 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200); // set the Uart Baudrate on BLE chip to 115200
 
-		serialReceivedText = (TextView) findViewById(R.id.serialReveicedText); // initial
-																				// the
-																				// EditText
-																				// of
-																				// the
-																				// received
-																				// data
-		serialSendText = (EditText) findViewById(R.id.serialSendText); // initial
-																		// the
-																		// EditText
-																		// of
-																		// the
-																		// sending
-																		// data
+		serialReceivedText = (TextView) findViewById(R.id.serialReveicedText); 
+		// initial the EditText of the received data
+		serialSendText = (EditText) findViewById(R.id.serialSendText); 
+		// initial the EditText of the sending data
 
-		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend); // initial
-																			// the
-																			// button
-																			// for
-																			// sending
-																			// the
-																			// data
+		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend); 
+		// initial the button for sending the data
 		buttonSerialSend.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				if (connectionState != connectionStateEnum.isConnected) {
@@ -77,18 +61,16 @@ public class MainActivity extends BlunoLibrary {
 			}
 		});
 
-		buttonScan = (Button) findViewById(R.id.buttonScan); // initial the
-																// button for
-																// scanning the
-																// BLE device
+		buttonScan = (Button) findViewById(R.id.buttonScan); 
+		// initial the button for scanning the BLE device
 		buttonScan.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				buttonScanOnClickProcess(); // Alert Dialog for selecting the
-											// BLE device
+				buttonScanOnClickProcess(); 
+				// Alert Dialog for selecting the BLE device
 			}
 		});
 
@@ -112,40 +94,36 @@ public class MainActivity extends BlunoLibrary {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		onActivityResultProcess(requestCode, resultCode, data); // onActivityResult
-																// Process by
-																// BlunoLibrary
+		onActivityResultProcess(requestCode, resultCode, data); 
+		// onActivityResult Process by BlunoLibrary
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		onPauseProcess(); // onPause Process by BlunoLibrary
+		onPauseProcess(); 
+		// onPause Process by BlunoLibrary
 	}
 
 	protected void onStop() {
 		super.onStop();
-		onStopProcess(); // onStop Process by BlunoLibrary
+		onStopProcess(); 
+		// onStop Process by BlunoLibrary
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		onDestroyProcess(); // onDestroy Process by BlunoLibrary
+		onDestroyProcess(); 
+		// onDestroy Process by BlunoLibrary
 	}
 
 	@Override
-	public void onConectionStateChange(connectionStateEnum theConnectionState) {// Once
-																				// connection
-																				// state
-																				// changes,
-																				// this
-																				// function
-																				// will
-																				// be
-																				// called
-		switch (theConnectionState) { // Four connection state
+	public void onConnectionStateChange(connectionStateEnum theConnectionState) {
+		// Once connection state changes, this function will be called
+		switch (theConnectionState) { 
+		// Four connection state
 		case isConnected:
 			buttonScan.setText("Connected");
 			break;
@@ -172,7 +150,7 @@ public class MainActivity extends BlunoLibrary {
 		
 		JSONObject j;
 		try {
-
+			
 			j = new JSONObject(data);
 
 			if (WizardState.initial == wizardState) {
@@ -221,6 +199,7 @@ public class MainActivity extends BlunoLibrary {
 				// Temperatures between 25->30 degrees are amber
 				// Temperatures over 30 degrees are red
 
+				
 			} else {
 				// TODO throw an exception for unsupported wizard state.
 			}
