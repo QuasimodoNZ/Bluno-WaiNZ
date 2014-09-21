@@ -29,9 +29,9 @@ public class MainActivity  extends BlunoLibrary {
         onCreateProcess();														//onCreate Process by BlunoLibrary
         
         serialBegin(115200);													//set the Uart Baudrate on BLE chip to 115200
-		
+        
         serialReceivedText=(TextView) findViewById(R.id.serialReveicedText);	//initial the EditText of the received data
-        serialSendText=(EditText) findViewById(R.id.serialSendText);			//initial the EditText of the sending data
+        //serialSendText=(EditText) findViewById(R.id.serialSendText);			//initial the EditText of the sending data
         
         buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend);		//initial the button for sending the data
         buttonSerialSend.setOnClickListener(new OnClickListener() {
@@ -133,7 +133,7 @@ public class MainActivity  extends BlunoLibrary {
 			
 			if (status.equalsIgnoreCase("fatal")){
 				wizardState = WizardState.error;
-				//TODO show error
+				findViewById(R.id.buttonSerialSend).setVisibility(View.VISIBLE);
 			} else if (status.equalsIgnoreCase("idle")){
 				wizardState = WizardState.idle;
 			} else {
