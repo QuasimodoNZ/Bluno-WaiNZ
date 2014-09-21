@@ -17,15 +17,24 @@ public class RiverData {
 	String ID, session;
 	Context context;
 	
-	public RiverData(Context context){
-		this.context = context;
+	public RiverData(Context c){
+		//TODO error state - empty one
+		this.context = c;
 	}
 
-	public void RiverDataErr(){
-		//TODO error state - empty one
+	public RiverData(Context c, JSONObject j){
+		this.context = c;
+		this.RiverDataJSON(c,j);
 	}
 	
-	public void RiverDataJSON(JSONObject j){
+	public void RiverDataComplete(Context c, JSONObject j, UserLocationTracker t){
+		this.context = c;
+		this.RiverDataJSON(c,j);
+		lat = t.getLat();
+		lon = t.getLon();
+	}
+	
+	public void RiverDataJSON(Context context, JSONObject j){
 		String date_i = null;
 		String conductivity_i = null;
 		String temperature_i = null;
@@ -57,12 +66,6 @@ public class RiverData {
 			//TODO log error
 			e.printStackTrace();
 		}
-	}
-	
-	public void RiverDataComplete(JSONObject j, UserLocationTracker t){
-		this.RiverDataJSON(j);
-		lat = t.getLat();
-		lon = t.getLon();
 	}
 	
 	public void setupGPS(){
