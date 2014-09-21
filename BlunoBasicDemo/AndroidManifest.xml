@@ -57,10 +57,10 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyB_o_V_0q4hijr4jnQGDPfXtM_aXOnpynU" />
-        
+            android:value="AIzaSyBkhqiDr16Q1U_pmFmW_zEwzEDkqthw0Qw" />
+
 		<meta-data android:name="com.google.android.gms.version" android:value="19" />
-		
+
     </application>
 
 </manifest>
