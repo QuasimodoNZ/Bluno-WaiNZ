@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,34 +33,28 @@ public class MainActivity extends BlunoLibrary {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		onCreateProcess(); // onCreate Process by BlunoLibrary
 
-		serialBegin(115200); // set the Uart Baudrate on BLE chip to 115200
+        onCreateProcess();														//onCreate Process by BlunoLibrary
 
-		serialReceivedText = (TextView) findViewById(R.id.serialReveicedText); // initial
-																				// the
-																				// EditText
-																				// of
-																				// the
-																				// received
-																				// data
-		serialSendText = (EditText) findViewById(R.id.serialSendText); // initial
-																		// the
-																		// EditText
-																		// of
-																		// the
-																		// sending
-																		// data
+        serialBegin(115200);													//set the Uart Baudrate on BLE chip to 115200
 
-		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend); // initial
-																			// the
-																			// button
-																			// for
-																			// sending
-																			// the
-																			// data
-		buttonSerialSend.setOnClickListener(new OnClickListener() {
+        //serialReceivedText=(TextView) findViewById(R.id.serialReveicedText);	//initial the EditText of the received data
+        //serialSendText=(EditText) findViewById(R.id.serialSendText);			//initial the EditText of the sending data
 
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        MapFragment map = new MapFragment();
+
+        fragmentTransaction.add(R.id.frameLayout1, map);
+
+        fragmentTransaction.commit();
+
+
+        buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend);		//initial the button for sending the data
+        buttonSerialSend.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (connectionState != connectionStateEnum.isConnected) {
@@ -169,7 +165,7 @@ public class MainActivity extends BlunoLibrary {
 	@Override
 	public void onSerialReceived(String data) {
 		// Once connection data received, this function will be called
-		
+
 		JSONObject j;
 		try {
 
