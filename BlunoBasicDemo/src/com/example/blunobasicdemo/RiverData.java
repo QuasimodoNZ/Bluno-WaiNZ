@@ -11,7 +11,7 @@ import java.util.Locale;
 
 public class RiverData {
 	
-	float lat,lon;
+	double lat,lon, alt;
 	Date readingDate;
 	float temperature = Float.NaN;
 	float conductivity = Float.NaN;
@@ -19,7 +19,7 @@ public class RiverData {
 	Context context;
 	
 	public RiverData(Context c){
-		//TODO error state - empty one
+		//TODO Initial state with no JSON
 		this.context = c;
 	}
 
@@ -73,6 +73,9 @@ public class RiverData {
 		//TODO make sure this shit works
 		UserLocationTracker t = new UserLocationTracker(context);
 		Location l = t.getLocation();
+		lat = l.getLatitude();
+		lon = l.getLongitude();
+		alt = l.getAltitude();
 	}
 
 	public float getTemperature() {
@@ -83,12 +86,16 @@ public class RiverData {
 		return conductivity;
 	}
 	
-	public float getLat() {
+	public double getLat() {
 		return lat;
 	}
 	
-	public float getLon() {
+	public double getLon() {
 		return lon;
+	}
+	
+	public double getAlt(){
+		return alt;
 	}
 	
 	public Date getReadingDate() {

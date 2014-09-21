@@ -1,5 +1,9 @@
 package com.example.blunobasicdemo;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +22,7 @@ public class MainActivity extends BlunoLibrary {
 	private TextView serialReceivedText;
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
+	private RiverData river;
 
 	public enum WizardState {
 		initial, idle, error, complete
@@ -42,6 +47,8 @@ public class MainActivity extends BlunoLibrary {
 
 		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend); 
 		// initial the button for sending the data
+		river = new RiverData(this.getApplicationContext());
+		river.setupGPS();
 		buttonSerialSend.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -120,7 +127,7 @@ public class MainActivity extends BlunoLibrary {
 	}
 
 	@Override
-	public void onConnectionStateChange(connectionStateEnum theConnectionState) {
+	public void onConectionStateChange(connectionStateEnum theConnectionState) {
 		// Once connection state changes, this function will be called
 		switch (theConnectionState) { 
 		// Four connection state
@@ -170,8 +177,7 @@ public class MainActivity extends BlunoLibrary {
 				// TODO was is a failure or success?
 				if (status.equalsIgnoreCase("idle")) {
 					wizardState = WizardState.complete;
-					// TODO send start message
-					sendStartMessage();
+					this.sendStartMessage();
 				} else if (status.equalsIgnoreCase("fatal")) {
 					// TODO show error
 				} else if (status.equalsIgnoreCase("bt4le")) {
@@ -191,13 +197,10 @@ public class MainActivity extends BlunoLibrary {
 				}
 
 			} else if (WizardState.complete == wizardState) {
-				// TODO sava data
+				// TODO save data
 				SubmissionSaver.saveSubmission(j, this);
 				// we should disregard any other information we receive
 				// TODO what do you want to do now
-				// Temperature between 0->25 Degrees are green
-				// Temperatures between 25->30 degrees are amber
-				// Temperatures over 30 degrees are red
 
 				
 			} else {
@@ -220,10 +223,11 @@ public class MainActivity extends BlunoLibrary {
 		JSONObject j = new JSONObject();
 		try {
 			j.put("cmd", "test");
-			j.put("session", "AD"); // TODO what do we put in here
-			String gpsData = ""; // TODO get gps data and format it for json
+			j.put("session", "AD"); // TODO what do we put in here - do we even need it?
+			String gpsData = String.valueOf(river.getLat())+" "+String.valueOf(river.getLon()); //+String.valueOf(river.getAlt());
 			j.put("gps_data", gpsData);
-			j.put("time", ""); // Need to get the current time
+			String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+			j.put("time", currTime);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
