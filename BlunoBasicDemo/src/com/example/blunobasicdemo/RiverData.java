@@ -18,6 +18,7 @@ public class RiverData {
 	String ID, session, status;
 	Context context;
 	UserLocationTracker track;
+	boolean sent;
 	
 	public RiverData(Context c){
 		//TODO Initial state with no JSON
@@ -51,6 +52,7 @@ public class RiverData {
 			date_i = j.getString("time");
 		    conductivity_i = j.getString("ec");
 			temperature_i = j.getString("temp");
+			sent = j.getBoolean("sent");
 		}
 		catch (JSONException e){
 			//TODO log error
@@ -79,6 +81,10 @@ public class RiverData {
 		lat = l.getLatitude();
 		lon = l.getLongitude();
 		alt = l.getAltitude();
+	}
+	
+	public boolean getSent(){
+		return sent;
 	}
 
 	public float getTemperature() {
