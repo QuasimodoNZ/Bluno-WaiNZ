@@ -34,27 +34,34 @@ public class MainActivity extends BlunoLibrary {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-        onCreateProcess();														//onCreate Process by BlunoLibrary
+		onCreateProcess(); // onCreate Process by BlunoLibrary
 
-        serialBegin(115200);													//set the Uart Baudrate on BLE chip to 115200
+		serialBegin(115200); // set the Uart Baudrate on BLE chip to 115200
 
-        //serialReceivedText=(TextView) findViewById(R.id.serialReveicedText);	//initial the EditText of the received data
-        //serialSendText=(EditText) findViewById(R.id.serialSendText);			//initial the EditText of the sending data
+		// serialReceivedText=(TextView) findViewById(R.id.serialReveicedText);
+		// //initial the EditText of the received data
+		// serialSendText=(EditText) findViewById(R.id.serialSendText);
+		// //initial the EditText of the sending data
 
+		FragmentManager fragmentManager = getSupportFragmentManager();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		MapFragment map = new MapFragment();
 
-        MapFragment map = new MapFragment();
+		fragmentTransaction.add(R.id.frameLayout1, map);
 
-        fragmentTransaction.add(R.id.frameLayout1, map);
+		fragmentTransaction.commit();
 
-        fragmentTransaction.commit();
-
-
-        buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend);		//initial the button for sending the data
-        buttonSerialSend.setOnClickListener(new OnClickListener() {
+		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend); // initial
+																			// the
+																			// button
+																			// for
+																			// sending
+																			// the
+																			// data
+		buttonSerialSend.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (connectionState != connectionStateEnum.isConnected) {
@@ -132,15 +139,7 @@ public class MainActivity extends BlunoLibrary {
 	}
 
 	@Override
-	public void onConectionStateChange(connectionStateEnum theConnectionState) {// Once
-																				// connection
-																				// state
-																				// changes,
-																				// this
-																				// function
-																				// will
-																				// be
-																				// called
+	public void onConectionStateChange(connectionStateEnum theConnectionState) {
 		switch (theConnectionState) { // Four connection state
 		case isConnected:
 			buttonScan.setText("Connected");
@@ -185,27 +184,36 @@ public class MainActivity extends BlunoLibrary {
 
 			} else if (WizardState.idle == wizardState) {
 				String status = j.getString("status");
-				// TODO was is a failure or success?
 				if (status.equalsIgnoreCase("idle")) {
 					wizardState = WizardState.complete;
-					// TODO send start message
 					sendStartMessage();
-				} else if (status.equalsIgnoreCase("fatal")) {
-					// TODO show error
-				} else if (status.equalsIgnoreCase("bt4le")) {
-					// TODO Bluetooth communication error / JSON error
-				} else if (status.equalsIgnoreCase("temp")) {
-					// TODO Temperature status error
-				} else if (status.equalsIgnoreCase("ec")) {
-					// TODO Electric conductivity error
-				} else if (status.equalsIgnoreCase("ph")) {
-					// TODO ph sensor error
-				} else if (status.equalsIgnoreCase("water level low")) {
-					// TODO sensor is not immersed in water
 				} else if (status.equalsIgnoreCase("busy")) {
-					// TODO device is busy
+
 				} else {
+
+					wizardState = WizardState.error;
+
+					String s;
+
+					if (status.equalsIgnoreCase("fatal")) {
+						s = "A fatal error has occured";
+					// TODO show error
+					} else if (status.equalsIgnoreCase("bt4le")) {
+						s = "There's a Bluetooth connection issue, please check device settings";
+					// TODO Bluetooth communication error / JSON error
+					} else if (status.equalsIgnoreCase("temp")) {
+						s = "Temperature is to high/low please remove Bluetooth device from water";
+					// TODO Temperature status error
+					} else if (status.equalsIgnoreCase("ec")) {
+						s = "Issue occured while measuring the electrical conductivity, please remove from water";
+					// TODO Electric conductivity error
+					} else if (status.equalsIgnoreCase("water level low")) {
+						s = "Device not submerged in water deeply, please restart test";
+					// TODO sensor is not immersed in water
 					// TODO throw exception for unsupported state.
+					} else {
+						s = "An unknown exception has occurred, please restart the test";
+					}
 				}
 
 			} else if (WizardState.complete == wizardState) {
