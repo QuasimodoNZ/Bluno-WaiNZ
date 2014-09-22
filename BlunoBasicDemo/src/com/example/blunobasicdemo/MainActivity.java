@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 public class MainActivity extends BlunoLibrary {
 	private Button buttonScan;
 	private Button buttonSerialSend;
-	private EditText serialSendText;
+	private EditText connectionUpdates;
 	private TextView serialReceivedText;
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
@@ -90,6 +89,8 @@ public class MainActivity extends BlunoLibrary {
 			}
 		});
 
+
+
 		for (int i = 0; i < 10; i++) {
 			JSONObject j = null;
 			try {
@@ -104,7 +105,6 @@ public class MainActivity extends BlunoLibrary {
 
 	protected void onResume() {
 		super.onResume();
-		System.out.println("BlUNOActivity onResume");
 		onResumeProcess(); // onResume Process by BlunoLibrary
 	}
 

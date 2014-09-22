@@ -41,7 +41,7 @@
             android:value="19" />
 
         <activity
-            android:name=".HistoryActivity"
+            android:name="MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
