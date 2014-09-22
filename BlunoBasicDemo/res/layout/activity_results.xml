@@ -23,7 +23,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"  >
+        android:orientation="vertical" >
 
         <FrameLayout
             android:id="@+id/previewFrameLayout"
@@ -33,40 +33,61 @@
         </FrameLayout>
     </FrameLayout>
 
-    <ProgressBar
-        android:id="@+id/temperature_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="169dp"
-        android:layout_height="185dp"
-        android:indeterminate="false"
-        android:max="48"
-        android:progress="45"
-        android:progressDrawable="@drawable/circle_progress" />
-
-    <ProgressBar
-        android:id="@+id/conductivity_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="169dp"
-        android:layout_height="185dp"
-        android:indeterminate="false"
-        android:max="48"
-        android:progress="45"
-        android:progressDrawable="@drawable/circle_progress" />
-    
-    <Button
-        android:id="@+id/submit_data_button"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-  		style="@style/riverWatchButtonStyle"        
-  		android:text="@string/submit" />
-    
-    <Button
-        android:id="@+id/discard_data_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-  		style="@style/riverWatchButtonStyle"        
-  		android:text="@string/discard_data" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <ProgressBar
+                android:id="@+id/temperature_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:indeterminate="false"
+                android:max="48"
+                android:progress="45"
+                android:progressDrawable="@drawable/circle_progress" />
+
+            <ProgressBar
+                android:id="@+id/conductivity_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:indeterminate="false"
+                android:max="48"
+                android:progress="45"
+                android:progressDrawable="@drawable/circle_progress" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/submit_data_button"
+                style="@style/riverWatchButtonStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:text="@string/submit" />
+
+            <Button
+                android:id="@+id/discard_data_button"
+                style="@style/riverWatchButtonStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:text="@string/discard_data" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
