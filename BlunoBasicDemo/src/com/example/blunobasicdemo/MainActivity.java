@@ -54,6 +54,9 @@ public class MainActivity extends BlunoLibrary {
 
 		fragmentTransaction.commit();
 
+		UserLocationTracker t = new UserLocationTracker(getApplicationContext());
+
+
 		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend); // initial
 																			// the
 																			// button
