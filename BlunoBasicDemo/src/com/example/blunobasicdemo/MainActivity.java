@@ -40,14 +40,6 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200); // set the Uart Baudrate on BLE chip to 115200
 
-		  //Remove title bar
-	    //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-	    //Remove notification bar
-	    //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-	   //set content view AFTER ABOVE sequence (to avoid crash)
-	    //this.setContentView(R.layout.activity_main);
 
 		// serialReceivedText=(TextView) findViewById(R.id.serialReveicedText);
 		// //initial the EditText of the received data
