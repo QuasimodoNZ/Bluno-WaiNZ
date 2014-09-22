@@ -1,12 +1,14 @@
 package com.example.blunobasicdemo;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -16,7 +18,8 @@ import android.widget.TextView;
 
 public class MainActivity extends BlunoLibrary {
 	private Button buttonScan;
-	private Button buttonSerialSend;
+	private Button connectToDevice;
+	private Button testWaterQuality;
 	private EditText connectionUpdates;
 	private TextView serialReceivedText;
 	private connectionStateEnum connectionState;
@@ -40,39 +43,40 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200); // set the Uart Baudrate on BLE chip to 115200
 
+		connectToDevice = (Button) findViewById(R.id.connectToDevice);
 
-		// serialReceivedText=(TextView) findViewById(R.id.serialReveicedText);
-		// //initial the EditText of the received data
-		// serialSendText=(EditText) findViewById(R.id.serialSendText);
-		// //initial the EditText of the sending data
-
-		FragmentManager fragmentManager = getSupportFragmentManager();
-
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-		UserLocationTracker t = new UserLocationTracker(getApplicationContext());
-
-		t.getLocation();
-
-		System.out.printf("lat: %f, lon: %f", t.lat, t.lon);
-
-		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend);
-
-		buttonSerialSend.setOnClickListener(new OnClickListener() {
+		connectToDevice.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (connectionState != connectionStateEnum.isConnected) {
-					// TODO tell user not connected
-				}
-
 				JSONObject j = new JSONObject();
+				UserLocationTracker t = new UserLocationTracker(getApplicationContext());
+				t.getLocation();
 				try {
-					j.put("cmd", "init");
-					j.put("dev", "AD");
+					j.put("cmd", "test");
+					j.put("session", "AD");
+					String gpsData = String.valueOf(t.getLat())+" "+String.valueOf(t.getLon());
+					j.put("gps_data", gpsData);
+					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+					j.put("time", currTime);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				serialSend(j.toString()); // send the data to the BLUNO
+				serialSend(j.toString());
+			}
+		});
+
+		testWaterQuality = (Button) findViewById(R.id.testWaterQuality);
+
+		testWaterQuality.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				JSONObject jason = new JSONObject();
+				try {
+					jason.put("status", "idle");
+				} catch (JSONException e){
+					e.printStackTrace();
+				}
+				serialSend(jason.toString());
 			}
 		});
 
@@ -82,22 +86,18 @@ public class MainActivity extends BlunoLibrary {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-				buttonScanOnClickProcess(); // Alert Dialog for selecting the
-											// BLE device
+				buttonScanOnClickProcess();
 			}
 		});
 
-
+		connectionUpdates = (EditText) findViewById(R.id.connectionUpdates);
 
 		for (int i = 0; i < 10; i++) {
-			JSONObject j = null;
+			JSONObject jason = null;
 			try {
-				j = new JSONObject("{\"test" + i + "\":\"succss\"}");
-				SubmissionSaver.saveSubmission(j, this);
+				jason = new JSONObject("{\"test" + i + "\":\"succss\"}");
+				SubmissionSaver.saveSubmission(jason, this);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -179,47 +179,42 @@ public class MainActivity extends BlunoLibrary {
 
 			} else if (WizardState.idle == wizardState) {
 				String status = j.getString("status");
+
+				String message;
+
 				if (status.equalsIgnoreCase("idle")) {
 					wizardState = WizardState.complete;
-					sendStartMessage();
+					message = "Device is idle, please start the test";
 				} else if (status.equalsIgnoreCase("busy")) {
-
+					message = "Devoce is currently busy";
 				} else {
 
 					wizardState = WizardState.error;
 
-					String s;
-
 					if (status.equalsIgnoreCase("fatal")) {
-						s = "A fatal error has occured";
-					// TODO show error
+						message = "A fatal error has occured";
 					} else if (status.equalsIgnoreCase("bt4le")) {
-						s = "There's a Bluetooth connection issue, please check device settings";
-					// TODO Bluetooth communication error / JSON error
+						message = "There's a Bluetooth connection issue, please check device settings";
 					} else if (status.equalsIgnoreCase("temp")) {
-						s = "Temperature is to high/low please remove Bluetooth device from water";
-					// TODO Temperature status error
+						message = "Temperature is to high/low please remove Bluetooth device from water";
 					} else if (status.equalsIgnoreCase("ec")) {
-						s = "Issue occured while measuring the electrical conductivity, please remove from water";
-					// TODO Electric conductivity error
+						message = "Issue occured while measuring the electrical conductivity, please remove from water";
 					} else if (status.equalsIgnoreCase("water level low")) {
-						s = "Device not submerged in water deeply, please restart test";
-					// TODO sensor is not immersed in water
-					// TODO throw exception for unsupported state.
+						message = "Device not submerged in water deeply, please restart test";
 					} else {
-						s = "An unknown exception has occurred, please restart the test";
+						message = "An unknown exception has occurred, please restart the test";
 					}
 				}
-
+				connectionUpdates.setText(message);
 			} else if (WizardState.complete == wizardState) {
-				// TODO sava data
-				SubmissionSaver.saveSubmission(j, this);
-				// we should disregard any other information we receive
-				// TODO what do you want to do now
-				// Temperature between 0->25 Degrees are green
-				// Temperatures between 25->30 degrees are amber
-				// Temperatures over 30 degrees are red
 
+				SubmissionSaver.saveSubmission(j, this);
+
+				Intent i = new Intent(this, ResultsActivity.class);
+
+				i.putExtra("HEY", j.toString());
+
+				startActivity(i);
 			} else {
 				// TODO throw an exception for unsupported wizard state.
 			}
@@ -234,20 +229,6 @@ public class MainActivity extends BlunoLibrary {
 		// The Serial data from the BLUNO may be sub-packaged, so using a buffer
 		// to hold the String is a good choice.
 
-	}
-
-	private void sendStartMessage() {
-		JSONObject j = new JSONObject();
-		try {
-			j.put("cmd", "test");
-			j.put("session", "AD"); // TODO what do we put in here
-			String gpsData = ""; // TODO get gps data and format it for json
-			j.put("gps_data", gpsData);
-			j.put("time", ""); // Need to get the current time
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		serialSend(j.toString()); // send the data to the BLUNO
 	}
 
 }

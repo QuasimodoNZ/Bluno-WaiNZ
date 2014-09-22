@@ -1,6 +1,10 @@
 package com.example.blunobasicdemo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +25,15 @@ public class ResultsActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_results);
 
+		Intent intent = getIntent();
+
+		try {
+			JSONObject jason = new JSONObject(intent.getStringExtra("HEY"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
 
@@ -29,6 +42,8 @@ public class ResultsActivity extends FragmentActivity {
 		an.setFillAfter(true);
 		condPb.startAnimation(an);
 		tempPb.startAnimation(an);
+
+
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 
