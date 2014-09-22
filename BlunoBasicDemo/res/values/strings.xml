@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">River Watch Bluetooth</string>
+    <string name="app_name">River Watch</string>
     <string name="ble_not_supported">BLE is not supported</string>
     <string name="label_data">Data:</string>
     <string name="label_device_address">Device address:</string>
@@ -97,5 +97,6 @@
     <string name="discard_data">Discard</string>
     <string name="title_activity_history">HistoryActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="bluetooth_title">Bluetooth</string>
 
 </resources>
