@@ -43,7 +43,7 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200);
 
-		connectToDevice = (Button) findViewById(R.id.connectToDevice);
+		connectToDevice = (Button) findViewById(R.id.connect_button);
 
 		connectToDevice.setOnClickListener(new OnClickListener() {
 			@Override
@@ -64,7 +64,7 @@ public class MainActivity extends BlunoLibrary {
 				serialSend(j.toString());
 			}
 		});
-
+/*
 		testWaterQuality = (Button) findViewById(R.id.testWaterQuality);
 
 		testWaterQuality.setOnClickListener(new OnClickListener(){
@@ -91,7 +91,7 @@ public class MainActivity extends BlunoLibrary {
 		});
 
 		connectionUpdates = (EditText) findViewById(R.id.connectionUpdates);
-
+*/
 		for (int i = 0; i < 10; i++) {
 			JSONObject jason = null;
 			try {
