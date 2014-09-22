@@ -15,18 +15,19 @@ public class Results extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_results);
-		
+
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
-	
+
 		Animation an = new RotateAnimation(0.0f, 90.0f, 250f, 273f);
+
 		an.setFillAfter(true);
 		condPb.startAnimation(an);
 		tempPb.startAnimation(an);
-		
+
 	    //Remove title bar
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 	}
 
 	@Override

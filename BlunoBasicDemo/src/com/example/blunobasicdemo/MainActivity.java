@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,6 +40,15 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200); // set the Uart Baudrate on BLE chip to 115200
 
+		  //Remove title bar
+	    //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+	    //Remove notification bar
+	    //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+	   //set content view AFTER ABOVE sequence (to avoid crash)
+	    //this.setContentView(R.layout.activity_main);
+
 		// serialReceivedText=(TextView) findViewById(R.id.serialReveicedText);
 		// //initial the EditText of the received data
 		// serialSendText=(EditText) findViewById(R.id.serialSendText);
@@ -48,22 +59,26 @@ public class MainActivity extends BlunoLibrary {
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 
+		UserLocationTracker t = new UserLocationTracker(getApplicationContext());
+
+		t.getLocation();
+
 		MapFragment map = new MapFragment();
+
+		map.lat = t.getLat();
+
+		map.lon = t.getLon();
 
 		fragmentTransaction.add(R.id.frameLayout1, map);
 
 		fragmentTransaction.commit();
 
-		UserLocationTracker t = new UserLocationTracker(getApplicationContext());
 
 
-		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend); // initial
-																			// the
-																			// button
-																			// for
-																			// sending
-																			// the
-																			// data
+		System.out.printf("lat: %f, lon: %f", t.lat, t.lon);
+
+		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend);
+
 		buttonSerialSend.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
