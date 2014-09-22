@@ -1,45 +1,46 @@
 package com.example.blunobasicdemo;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
+
 import org.json.*;
+
 import android.content.Context;
-import android.location.Location;
+import android.view.View;
+import android.view.View.OnClickListener;
+
 import java.text.ParseException;
+import java.util.Date;
 
 
 public class RiverData {
-	
-	float lat,lon;
+
+	Float lat, lon, temperature, conductivity;
+
 	Date readingDate;
-	float temperature = Float.NaN;
-	float conductivity = Float.NaN;
+
 	String ID, session;
 	Context context;
-	
-	public RiverData(Context c){
-		//TODO error state - empty one
-		this.context = c;
-	}
 
 	public RiverData(Context c, JSONObject j){
 		this.context = c;
-		this.RiverDataJSON(c,j);
+		this.PopulateModel(j);
 	}
-	
-	public void RiverDataComplete(Context c, JSONObject j, UserLocationTracker t){
-		this.context = c;
-		this.RiverDataJSON(c,j);
-		lat = t.getLat();
-		lon = t.getLon();
-	}
-	
-	public void RiverDataJSON(Context context, JSONObject j){
+
+	 OnClickListener listener = new OnClickListener(){ // the book's action
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+			}
+	};
+
+	public void PopulateModel(JSONObject j){
 		String date_i = null;
 		String conductivity_i = null;
 		String temperature_i = null;
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss a");
+
 		try{
 			//Get strings from JSON
 			ID = j.getString("id");
@@ -47,59 +48,49 @@ public class RiverData {
 			date_i = j.getString("time");
 		    conductivity_i = j.getString("ec");
 			temperature_i = j.getString("temp");
-		}
-		catch (JSONException e){
-			//TODO log error
-			e.printStackTrace();
-		}
-		try{
+
 			//Convert the ones that aren't strings
 			readingDate = (Date)formatter.parse(date_i);
 			conductivity = Float.parseFloat(conductivity_i);
 			temperature = Float.parseFloat(temperature_i);
+
+			System.out.printf("Date: %s, Conductivity: %f, Temperature: %f \n", readingDate, conductivity, temperature);
+
+		}
+		catch (JSONException e){
+			e.printStackTrace();
 		}
 		catch (ParseException e){
-			//TODO log error
 			e.printStackTrace();
 		}
-		catch (NumberFormatException e){
-			//TODO log error
-			e.printStackTrace();
-		}
-	}
-	
-	public void setupGPS(){
-		//TODO make sure this shit works
-		UserLocationTracker t = new UserLocationTracker(context);
-		Location l = t.getLocation();
 	}
 
 	public float getTemperature() {
 		return temperature;
 	}
-	
+
 	public float getConductivity() {
 		return conductivity;
 	}
-	
+
 	public float getLat() {
 		return lat;
 	}
-	
+
 	public float getLon() {
 		return lon;
 	}
-	
+
 	public Date getReadingDate() {
 		return readingDate;
 	}
-	
+
 	public String getID() {
 		return ID;
 	}
-	
+
 	public String getSession() {
 		return session;
 	}
-	
+
 }

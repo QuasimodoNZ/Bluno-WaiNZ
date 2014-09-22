@@ -21,8 +21,8 @@
     <string name="menu_scan">Scan</string>
     <string name="menu_stop">Stop</string>
     <string name="action_settings">Action settings</string>
-    
-    <!-- <string name="app_name">River Watch</string>   -->
+
+    <!-- <string name="app_name">River Watch</string> -->
     <string name="capture_image">Capture Image</string>
     <string name="select_location">Select Location</string>
     <string name="description_labeltitle"> Enter Image Description </string>
@@ -77,8 +77,7 @@
     <string name="select_image_from_gallery">Select Image From Gallery</string>
     <string name="take_picture_title">Capture Image</string>
     <string name="incident_view_gallery_title">Gallery</string>
-        <string name="incident_view_grid_title">Incident Gallery </string>
-
+    <string name="incident_view_grid_title">Incident Gallery </string>
     <string name="failed_camera_please_try_again">Failed to save image, please try again</string>
     <string name="failed_to_connect_to_camera_message">Failed to open camera. Please try again later</string>
     <string name="geocoordinates_text">Geocoordinate location:</string>
@@ -92,10 +91,11 @@
     <string name="please_wait">Please wait&#8230;</string>
     <string name="main_screen_image"> Main Image </string>
 
-    
     <!-- NEW TO BLUETOOTH STRINGS -->
-    <string name='results_title'>Results</string>
-    <string name='history_title'>History</string>
-    <string name='discard_data'>Discard</string>
+    <string name="results_title">Results</string>
+    <string name="history_title">History</string>
+    <string name="discard_data">Discard</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

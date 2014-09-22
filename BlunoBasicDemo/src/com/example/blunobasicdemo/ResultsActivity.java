@@ -30,8 +30,6 @@ public class ResultsActivity extends FragmentActivity {
 		condPb.startAnimation(an);
 		tempPb.startAnimation(an);
 
-	   
-		
 		FragmentManager fragmentManager = getSupportFragmentManager();
 
 		FragmentTransaction fragmentTransaction = fragmentManager

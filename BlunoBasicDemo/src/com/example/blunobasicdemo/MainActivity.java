@@ -33,6 +33,7 @@ public class MainActivity extends BlunoLibrary {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
@@ -48,24 +49,11 @@ public class MainActivity extends BlunoLibrary {
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 		UserLocationTracker t = new UserLocationTracker(getApplicationContext());
 
 		t.getLocation();
-
-		MapFragment map = new MapFragment();
-
-		map.lat = t.getLat();
-
-		map.lon = t.getLon();
-
-		fragmentTransaction.add(R.id.frameLayout1, map);
-
-		fragmentTransaction.commit();
-
-
 
 		System.out.printf("lat: %f, lon: %f", t.lat, t.lon);
 
@@ -76,7 +64,6 @@ public class MainActivity extends BlunoLibrary {
 			public void onClick(View v) {
 				if (connectionState != connectionStateEnum.isConnected) {
 					// TODO tell user not connected
-
 				}
 
 				JSONObject j = new JSONObject();
@@ -90,10 +77,8 @@ public class MainActivity extends BlunoLibrary {
 			}
 		});
 
-		buttonScan = (Button) findViewById(R.id.buttonScan); // initial the
-																// button for
-																// scanning the
-																// BLE device
+		buttonScan = (Button) findViewById(R.id.buttonScan);
+
 		buttonScan.setOnClickListener(new OnClickListener() {
 
 			@Override
