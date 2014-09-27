@@ -20,6 +20,7 @@ public class MainActivity extends BlunoLibrary {
 	private Button buttonScan;
 	private Button connectToDevice;
 	private Button testWaterQuality;
+	private Button viewHistory;
 	private EditText connectionUpdates;
 	private TextView serialReceivedText;
 	private connectionStateEnum connectionState;
@@ -62,6 +63,18 @@ public class MainActivity extends BlunoLibrary {
 					e.printStackTrace();
 				}
 				serialSend(j.toString());
+			}
+		});
+		
+		viewHistory = (Button) findViewById(R.id.history_button);
+		
+		viewHistory.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				Intent i = new Intent(MainActivity.this, HistoryActivity.class);
+
+				startActivity(i);
 			}
 		});
 /*
