@@ -225,7 +225,7 @@ public class MainActivity extends BlunoLibrary {
 
 				Intent i = new Intent(this, ResultsActivity.class);
 
-				i.putExtra("HEY", j.toString());
+				i.putExtra("data", j.toString());
 
 				startActivity(i);
 			} else {
