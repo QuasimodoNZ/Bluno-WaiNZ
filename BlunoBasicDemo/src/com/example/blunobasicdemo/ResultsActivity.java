@@ -26,13 +26,13 @@ public class ResultsActivity extends FragmentActivity {
 		setContentView(R.layout.activity_results);
 
 		Intent intent = getIntent();
-
+/*
 		try {
 			JSONObject jason = new JSONObject(intent.getStringExtra("HEY"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
+*/
 
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
