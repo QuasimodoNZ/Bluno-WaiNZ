@@ -28,7 +28,7 @@ public class MainActivity extends BlunoLibrary {
 	private Button historyButton;
 	private Button connectToDevice;
 	private Button testWaterQuality;
-	private EditText connectionUpdates;
+	private TextView connectionUpdates;
 	private TextView serialReceivedText;
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
@@ -98,12 +98,6 @@ public class MainActivity extends BlunoLibrary {
 
 		imageview.setImageBitmap(
 			    bitmap);
-
-		/*
-		Drawable d = new BitmapDrawable(getResources(),bitmap);
-
-		imageview.setBackgroundDrawable(d);
-		*/
 
 		TextView connectionUpdate = (TextView) findViewById(R.id.connection_updates);
 
@@ -250,7 +244,7 @@ public class MainActivity extends BlunoLibrary {
 			} else if (WizardState.idle == wizardState) {
 				String status = j.getString("status");
 
-				String message;
+				String message = "";
 
 				if (status.equalsIgnoreCase("complete")) {
 
@@ -289,16 +283,18 @@ public class MainActivity extends BlunoLibrary {
 				//connectionUpdates.setText(message);
 
 			} else {
-				// TODO throw an exception for unsupported wizard state.
+				//TODO do we want the user to see this or remove after debugging?
+				String message = "Unrecognised data received from device";
+				connectionUpdates.setText(message);
+				//Reset the device when it sends us unknown data
+				JSONObject n = new JSONObject();
+				n.put("cmd", "reset");
+				serialSend(n.toString());
 			}
 
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
-		// go do next action
-		// The Serial data from the BLUNO may be sub-packaged, so using a buffer
-		// to hold the String is a good choice.
 
 	}
 
