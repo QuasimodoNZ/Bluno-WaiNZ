@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 public class ResultsActivity extends FragmentActivity {
@@ -49,6 +52,13 @@ public class ResultsActivity extends FragmentActivity {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
+		ImageView imageview = (ImageView) findViewById(R.id.image_results_view);
+
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tomassobek);
+
+		imageview.setImageBitmap(
+			    bitmap);
 
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);

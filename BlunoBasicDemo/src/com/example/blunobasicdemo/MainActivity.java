@@ -244,7 +244,9 @@ public class MainActivity extends BlunoLibrary {
 						message = "An unknown exception has occurred, please restart the test";
 					}
 				}
+
 				connectionUpdates.setText(message);
+
 			} else {
 				//TODO do we want the user to see this or remove after debugging?
 				String message = "Unrecognised data received from device";

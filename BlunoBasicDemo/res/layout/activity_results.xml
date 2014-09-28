@@ -1,110 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/results_frame"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <FrameLayout
+    <ImageView
+        android:id="@+id/image_results_view"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/descriptionScreenTitle"
-            style="@style/titleHeading"
-            android:layout_height="65dp"
-            android:text="@string/results_title" />
-
-        <Button
-            android:id="@+id/backButton"
-            style="@style/backButtonStyle" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </FrameLayout>
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="175dp"
-        android:layout_weight="3.33"
+        android:layout_height="fill_parent"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" >
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/descriptionScreenTitle"
+                style="@style/titleHeading"
+                android:layout_height="65dp"
+                android:text="@string/results_title" />
+
+            <Button
+                android:id="@+id/backButton"
+                style="@style/backButtonStyle" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_weight="0.70" >
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
+                android:orientation="vertical" >
 
-                <ProgressBar
-                    android:id="@+id/conductivity_progress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="15dp"
-                    android:indeterminate="false"
-                    android:max="48"
-                    android:progress="45"
-                    android:progressDrawable="@drawable/circle_progress" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.50"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/conductivity_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.50"
+                            android:text="Conductivity"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <ProgressBar
+                            android:id="@+id/conductivity_progress"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="10px"
+                            android:layout_marginLeft="15dp"
+                            android:layout_weight="0.50"
+                            android:indeterminate="false"
+                            android:max="48"
+                            android:progress="45"
+                            android:progressDrawable="@drawable/progressbar2" />
+
+                        <TextView
+                            android:id="@+id/conductivity_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6.0"
+                            android:text="CondValue"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.50"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/temperature_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.50"
+                            android:text="Temperature"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <ProgressBar
+                            android:id="@+id/temperature_progress"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="10px"
+                            android:layout_marginLeft="15dp"
+                            android:layout_weight="0.50"
+                            android:indeterminate="false"
+                            android:max="48"
+                            android:progress="45"
+                            android:progressDrawable="@drawable/progressbar2" />
+
+                        <TextView
+                            android:id="@+id/temperature_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6.0"
+                            android:text="TempValue"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.32" >
+
+                    <TextView
+                        android:id="@+id/lat_long"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:text="Lat/Long"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <TextView
+                        android:id="@+id/device_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:text="Device ID"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" >
+
+                    <TextView
+                        android:id="@+id/date_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date and time"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <ProgressBar
-                    android:id="@+id/temperature_progress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="15dp"
-                    android:indeterminate="false"
-                    android:max="48"
-                    android:progress="45"
-                    android:progressDrawable="@drawable/circle_progress" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="150dp" >
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/results_map_frame"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_height="158dp"
+            android:layout_weight="0.05" >
         </FrameLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="115dp"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/submit_data_button"
-            style="@style/riverWatchButtonStyle"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/submit" />
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/discard_data_button"
-            style="@style/riverWatchButtonStyle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:text="@string/discard_data" />
+            <Button
+                android:id="@+id/submit_data_button"
+                style="@style/riverWatchButtonStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/submit" />
+
+            <Button
+                android:id="@+id/discard_data_button"
+                style="@style/riverWatchButtonStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:text="@string/discard_data" />
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>
