@@ -21,8 +21,7 @@ public class MainActivity extends BlunoLibrary {
 	private Button connectToDevice;
 	private Button testWaterQuality;
 	private Button viewHistory;
-	private EditText connectionUpdates;
-	private TextView serialReceivedText;
+	private TextView connectionUpdates;
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
 
@@ -36,7 +35,7 @@ public class MainActivity extends BlunoLibrary {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
@@ -44,30 +43,36 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200);
 
+		connectionUpdates = (TextView) findViewById(R.id.connection_updates);
 		connectToDevice = (Button) findViewById(R.id.connect_button);
 
 		connectToDevice.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				JSONObject j = new JSONObject();
-				UserLocationTracker t = new UserLocationTracker(getApplicationContext());
+				UserLocationTracker t = new UserLocationTracker(
+						getApplicationContext());
 				t.getLocation();
 				try {
 					j.put("cmd", "test");
 					j.put("session", "AD");
-					String gpsData = String.valueOf(t.getLat())+" "+String.valueOf(t.getLon());
+					String gpsData = String.valueOf(t.getLat()) + " "
+							+ String.valueOf(t.getLon());
 					j.put("gps_data", gpsData);
-					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
+							Locale.getDefault()).format(Calendar.getInstance()
+							.getTime());
 					j.put("time", currTime);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				serialSend(j.toString());
+				connectionUpdates.setText("Initialising device");
 			}
 		});
-		
+
 		viewHistory = (Button) findViewById(R.id.history_button);
-		
+
 		viewHistory.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -77,34 +82,23 @@ public class MainActivity extends BlunoLibrary {
 				startActivity(i);
 			}
 		});
-/*
-		testWaterQuality = (Button) findViewById(R.id.testWaterQuality);
-
-		testWaterQuality.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v){
-				JSONObject jason = new JSONObject();
-				try {
-					jason.put("status", "idle");
-				} catch (JSONException e){
-					e.printStackTrace();
-				}
-				serialSend(jason.toString());
-			}
-		});
-
-		buttonScan = (Button) findViewById(R.id.buttonScan);
-
-		buttonScan.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				buttonScanOnClickProcess();
-			}
-		});
-
-		connectionUpdates = (EditText) findViewById(R.id.connectionUpdates);
-*/
+		/*
+		 * testWaterQuality = (Button) findViewById(R.id.testWaterQuality);
+		 *
+		 * testWaterQuality.setOnClickListener(new OnClickListener(){
+		 *
+		 * @Override public void onClick(View v){ JSONObject jason = new
+		 * JSONObject(); try { jason.put("status", "idle"); } catch
+		 * (JSONException e){ e.printStackTrace(); }
+		 * serialSend(jason.toString()); } });
+		 *
+		 * buttonScan = (Button) findViewById(R.id.buttonScan);
+		 *
+		 * buttonScan.setOnClickListener(new OnClickListener() {
+		 *
+		 * @Override public void onClick(View v) { buttonScanOnClickProcess(); }
+		 * });
+		 */
 		for (int i = 0; i < 10; i++) {
 			JSONObject jason = null;
 			try {
@@ -183,9 +177,10 @@ public class MainActivity extends BlunoLibrary {
 
 				if (status.equalsIgnoreCase("fatal")) {
 					wizardState = WizardState.error;
-					// TODO show error
+					connectionUpdates.setText("Error in initialising device");
 				} else if (status.equalsIgnoreCase("idle")) {
 					wizardState = WizardState.idle;
+					connectionUpdates.setText("Device is idle, please start the test");
 				} else {
 					// TODO throw exception for unsupported state.
 				}
@@ -238,7 +233,7 @@ public class MainActivity extends BlunoLibrary {
 		}
 
 		// go do next action
-		serialReceivedText.append(data); // append the text into the EditText
+		// connectionUpdates.append(data); // append the text into the EditText
 		// The Serial data from the BLUNO may be sub-packaged, so using a buffer
 		// to hold the String is a good choice.
 
