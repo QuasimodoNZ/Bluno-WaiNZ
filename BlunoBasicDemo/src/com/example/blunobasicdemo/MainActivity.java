@@ -9,11 +9,17 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends BlunoLibrary {
@@ -24,7 +30,6 @@ public class MainActivity extends BlunoLibrary {
 	private Button testWaterQuality;
 	private EditText connectionUpdates;
 	private TextView serialReceivedText;
-
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
 	private RiverData river;
@@ -38,6 +43,45 @@ public class MainActivity extends BlunoLibrary {
 		idle, fatal, bt4le, temp, ec, ph, water, busy
 	};
 
+	public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    // Raw height and width of image
+    final int height = options.outHeight;
+    final int width = options.outWidth;
+    int inSampleSize = 1;
+
+    if (height > reqHeight || width > reqWidth) {
+
+        final int halfHeight = height / 2;
+        final int halfWidth = width / 2;
+
+        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+        // height and width larger than the requested height and width.
+        while ((halfHeight / inSampleSize) > reqHeight
+                && (halfWidth / inSampleSize) > reqWidth) {
+            inSampleSize *= 2;
+        }
+    }
+
+    return inSampleSize;
+}
+	public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+	        int reqWidth, int reqHeight) {
+
+	    // First decode with inJustDecodeBounds=true to check dimensions
+	    final BitmapFactory.Options options = new BitmapFactory.Options();
+	    options.inJustDecodeBounds = true;
+	    BitmapFactory.decodeResource(res, resId, options);
+
+	    // Calculate inSampleSize
+	    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+	    // Decode bitmap with inSampleSize set
+	    options.inJustDecodeBounds = false;
+	    return BitmapFactory.decodeResource(res, resId, options);
+	}
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -48,8 +92,24 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200);
 
-		wizardState = WizardState.initial;
+		ImageView imageview = (ImageView) findViewById(R.id.image_view);
 
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tomassobek);
+
+		imageview.setImageBitmap(
+			    bitmap);
+
+		/*
+		Drawable d = new BitmapDrawable(getResources(),bitmap);
+
+		imageview.setBackgroundDrawable(d);
+		*/
+
+		TextView connectionUpdate = (TextView) findViewById(R.id.connection_updates);
+
+		connectionUpdate.setAlpha(0.5f);
+
+		wizardState = WizardState.initial;
 
 		connectToDevice = (Button) findViewById(R.id.connect_button);
 
@@ -93,7 +153,7 @@ public class MainActivity extends BlunoLibrary {
 				}
 
 				serialSend(j.toString());
-				connectionUpdates.setText("Initialising device");
+				//connectionUpdates.setText("Initialising device");
 			}
 		});
 
@@ -179,10 +239,10 @@ public class MainActivity extends BlunoLibrary {
 
 				if (status.equalsIgnoreCase("fatal")) {
 					wizardState = WizardState.error;
-					connectionUpdates.setText("Error in initialising device");
+					//connectionUpdates.setText("Error in initialising device");
 				} else if (status.equalsIgnoreCase("idle")) {
 					wizardState = WizardState.idle;
-					connectionUpdates.setText("Device is idle, please start the test");
+					//connectionUpdates.setText("Device is idle, please start the test");
 				} else {
 					// TODO throw exception for unsupported state.
 				}
