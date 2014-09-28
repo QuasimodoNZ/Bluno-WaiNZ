@@ -6,9 +6,11 @@ import java.util.Random;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
@@ -41,7 +43,7 @@ public class HistoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (inflater == null)
             inflater = (LayoutInflater) activity
@@ -64,6 +66,15 @@ public class HistoryAdapter extends BaseAdapter {
         }
         else
         	health.setProgress(r.nextInt(100));
+        
+        convertView.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(activity, ResultsActivity.class);
+				i.putExtra("RiverData", RiverDataItems.get(position).toJson().toString());
+				activity.startActivity(i);
+			}});
 
 
 //        health.setProgress(70);

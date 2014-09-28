@@ -42,14 +42,14 @@ public class ResultsActivity extends FragmentActivity {
 		setContentView(R.layout.activity_results);
 
 		Intent intent = getIntent();
-/*
+
 		try {
-			jason = new JSONObject(intent.getStringExtra("data"));
+			jason = new JSONObject(intent.getStringExtra("RiverData"));
 			this.parseJSON(jason);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-*/
+
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
 
@@ -71,6 +71,7 @@ public class ResultsActivity extends FragmentActivity {
 
 		map.lat = t.getLat();
 		map.lon = t.getLon();
+		
 		fragmentTransaction.add(R.id.results_map_frame, map);
 		fragmentTransaction.commit();
 

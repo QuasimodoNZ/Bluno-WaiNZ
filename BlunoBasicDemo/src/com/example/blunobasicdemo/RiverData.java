@@ -77,4 +77,17 @@ public class RiverData {
 		return session;
 	}
 
+	public JSONObject toJson(){
+		JSONObject jason = new JSONObject();
+		try {
+			jason.put("id", id);
+			jason.put("session", session);
+			jason.put("time", readingDate);
+			jason.put("ec", conductivity);
+			jason.put("temp", temperature);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jason;
+	}
 }
