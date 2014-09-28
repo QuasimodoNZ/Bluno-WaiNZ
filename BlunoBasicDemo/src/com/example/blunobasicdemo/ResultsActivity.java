@@ -101,6 +101,17 @@ public class ResultsActivity extends FragmentActivity {
 			}
 		});
 
+		// Sets the back button so that it returns to the previous page
+				((Button) findViewById(R.id.backButton))
+					.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							onBackPressed();
+
+						}
+				});
+
 	}
 
 	/**
