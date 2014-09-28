@@ -42,7 +42,9 @@ public abstract  class BlunoLibrary  extends FragmentActivity{
 //		mainContext=theContext;
 //	}
 
+
 	public abstract void onConectionStateChange(connectionStateEnum theconnectionStateEnum);
+
 	public abstract void onSerialReceived(String theString);
 	public void serialSend(String theString){
 		if (mConnectionState == connectionStateEnum.isConnected) {
@@ -316,6 +318,7 @@ public abstract  class BlunoLibrary  extends FragmentActivity{
 						mSCharacteristic=mSerialPortCharacteristic;
 						mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
 						mConnectionState = connectionStateEnum.isConnected;
+
 						onConectionStateChange(mConnectionState);
 
 					}
