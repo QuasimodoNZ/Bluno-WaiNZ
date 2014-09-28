@@ -18,11 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
-<<<<<<< HEAD
 import android.widget.EditText;
 import android.widget.ImageView;
-=======
->>>>>>> ca614634dcb19c6cb51fe3911270168425446f5a
 import android.widget.TextView;
 
 public class MainActivity extends BlunoLibrary {

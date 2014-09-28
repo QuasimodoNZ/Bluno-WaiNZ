@@ -3,11 +3,11 @@
   <item android:id="@android:id/background">
     <shape>
       <corners android:radius="5dip" />
-      <gradient
+      <!-- <gradient
             android:angle="0"
             android:endColor="@color/Green"
             android:centerColor="@color/Orange"
-            android:startColor="@color/Red" />
+            android:startColor="@color/Red" /> -->
     </shape>
   </item>
   <item android:id="@android:id/progress">
