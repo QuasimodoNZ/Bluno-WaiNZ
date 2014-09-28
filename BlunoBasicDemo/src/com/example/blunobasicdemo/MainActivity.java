@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 public class MainActivity extends BlunoLibrary {
 	private Button buttonScan;
+	private Button historyButton;
 	private Button connectToDevice;
 	private Button testWaterQuality;
 	private EditText connectionUpdates;
@@ -43,44 +44,52 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200);
 
+		wizardState = WizardState.initial;
+
 		connectToDevice = (Button) findViewById(R.id.connect_button);
 
 		connectToDevice.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
+				JSONObject jason = new JSONObject();
+				try {
+					jason.put("cmd", "init");
+					jason.put("dev", "ad");
+				} catch (JSONException e){
+					e.printStackTrace();
+				}
+				serialSend(jason.toString());
+
+			}
+		});
+
+		testWaterQuality = (Button) findViewById(R.id.start_button);
+
+		testWaterQuality.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+
 				JSONObject j = new JSONObject();
 				UserLocationTracker t = new UserLocationTracker(getApplicationContext());
 				t.getLocation();
+
 				try {
 					j.put("cmd", "test");
-					j.put("session", "AD");
-					String gpsData = String.valueOf(t.getLat())+" "+String.valueOf(t.getLon());
-					j.put("gps_data", gpsData);
+					j.put("session", "ad");
+					String gpsData = String.valueOf(t.getLat())+", "+String.valueOf(t.getLon());
+					j.put("gps", gpsData);
 					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Calendar.getInstance().getTime());
 					j.put("time", currTime);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+
 				serialSend(j.toString());
 			}
 		});
-/*
-		testWaterQuality = (Button) findViewById(R.id.testWaterQuality);
 
-		testWaterQuality.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v){
-				JSONObject jason = new JSONObject();
-				try {
-					jason.put("status", "idle");
-				} catch (JSONException e){
-					e.printStackTrace();
-				}
-				serialSend(jason.toString());
-			}
-		});
-
-		buttonScan = (Button) findViewById(R.id.buttonScan);
+		buttonScan = (Button) findViewById(R.id.scan_button);
 
 		buttonScan.setOnClickListener(new OnClickListener() {
 
@@ -90,8 +99,21 @@ public class MainActivity extends BlunoLibrary {
 			}
 		});
 
-		connectionUpdates = (EditText) findViewById(R.id.connectionUpdates);
-*/
+		historyButton = (Button) findViewById(R.id.history_button);
+
+		historyButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+
+				Intent i = new Intent(MainActivity.this, HistoryActivity.class);
+
+				startActivity(i);
+
+			}
+
+		});
+
 		for (int i = 0; i < 10; i++) {
 			JSONObject jason = null;
 			try {
@@ -182,11 +204,20 @@ public class MainActivity extends BlunoLibrary {
 
 				String message;
 
-				if (status.equalsIgnoreCase("idle")) {
+				if (status.equalsIgnoreCase("complete")) {
+
 					wizardState = WizardState.complete;
-					message = "Device is idle, please start the test";
+
+					SubmissionSaver.saveSubmission(j, this);
+
+					Intent i = new Intent(this, ResultsActivity.class);
+
+					i.putExtra("HEY", j.toString());
+
+					startActivity(i);
+
 				} else if (status.equalsIgnoreCase("busy")) {
-					message = "Devoce is currently busy";
+					message = "Device is currently busy";
 				} else {
 
 					wizardState = WizardState.error;
@@ -200,32 +231,22 @@ public class MainActivity extends BlunoLibrary {
 					} else if (status.equalsIgnoreCase("ec")) {
 						message = "Issue occured while measuring the electrical conductivity, please remove from water";
 					} else if (status.equalsIgnoreCase("water level low")) {
-						message = "Device not submerged in water deeply, please restart test";
+						message = "Device not submerged in water deeply enough, please restart test";
 					} else {
 						message = "An unknown exception has occurred, please restart the test";
 					}
 				}
-				connectionUpdates.setText(message);
-			} else if (WizardState.complete == wizardState) {
-
-				SubmissionSaver.saveSubmission(j, this);
-
-				Intent i = new Intent(this, ResultsActivity.class);
-
-				i.putExtra("HEY", j.toString());
-
-				startActivity(i);
+				//connectionUpdates.setText(message);
 			} else {
 				// TODO throw an exception for unsupported wizard state.
 			}
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		// go do next action
-		serialReceivedText.append(data); // append the text into the EditText
+		//serialReceivedText.append(data); // append the text into the EditText
 		// The Serial data from the BLUNO may be sub-packaged, so using a buffer
 		// to hold the String is a good choice.
 

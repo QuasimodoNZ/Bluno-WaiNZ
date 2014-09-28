@@ -92,8 +92,11 @@
     <string name="main_screen_image"> Main Image </string>
 
     <!-- NEW TO BLUETOOTH STRINGS -->
+
+    <string name="bluno_connect">Connect to Bluno</string>
     <string name="results_title">Results</string>
     <string name="history_title">History</string>
+    <string name="start_title">Start</string>
     <string name="discard_data">Discard</string>
     <string name="title_activity_history">HistoryActivity</string>
     <string name="hello_world">Hello world!</string>
