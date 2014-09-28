@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,9 +19,12 @@ import android.widget.TextView;
 public class MainActivity extends BlunoLibrary {
 	public static final String JSON_MESSAGE = "INTENT_MESSAGE_COLLECTED_DATA";
 	private Button buttonScan;
-	private Button buttonSerialSend;
-	private EditText serialSendText;
+	private Button historyButton;
+	private Button connectToDevice;
+	private Button testWaterQuality;
+	private EditText connectionUpdates;
 	private TextView serialReceivedText;
+
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
 	private RiverData river;
@@ -36,61 +40,95 @@ public class MainActivity extends BlunoLibrary {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		onCreateProcess(); // onCreate Process by BlunoLibrary
 
-		serialBegin(115200); // set the Uart Baudrate on BLE chip to 115200
+		onCreateProcess();
 
-		serialReceivedText = (TextView) findViewById(R.id.serialReveicedText); 
-		// initial the EditText of the received data
-		//serialSendText = (EditText) findViewById(R.id.serialSendText); 
-		// initial the EditText of the sending data
+		serialBegin(115200);
 
-		buttonSerialSend = (Button) findViewById(R.id.buttonSerialSend); 
-		// initial the button for sending the data
-		river = new RiverData(this.getApplicationContext());
-		river.setupGPS();
-		track = river.getLocation();
-		buttonSerialSend.setOnClickListener(new OnClickListener() {
+		wizardState = WizardState.initial;
+
+
+		connectToDevice = (Button) findViewById(R.id.connect_button);
+
+		connectToDevice.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				if (connectionState != connectionStateEnum.isConnected) {
-					// TODO tell user not connected
-
-				}
-
-				JSONObject j = new JSONObject();
+				JSONObject jason = new JSONObject();
 				try {
-					j.put("cmd", "init");
-					j.put("dev", "AD");
-				} catch (JSONException e) {
+					jason.put("cmd", "init");
+					jason.put("dev", "ad");
+				} catch (JSONException e){
 					e.printStackTrace();
 				}
-				serialSend(j.toString()); // send the data to the BLUNO
+				serialSend(jason.toString());
+
 			}
 		});
 
-		buttonScan = (Button) findViewById(R.id.buttonScan); 
-		// initial the button for scanning the BLE device
+		testWaterQuality = (Button) findViewById(R.id.start_button);
+
+		testWaterQuality.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+
+				JSONObject j = new JSONObject();
+				UserLocationTracker t = new UserLocationTracker(
+						getApplicationContext());
+				t.getLocation();
+
+				try {
+					j.put("cmd", "test");
+					j.put("session", "ad");
+					String gpsData = String.valueOf(t.getLat())+", "+String.valueOf(t.getLon());
+					j.put("gps", gpsData);
+					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+
+					j.put("time", currTime);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				serialSend(j.toString());
+				connectionUpdates.setText("Initialising device");
+			}
+		});
+
+		buttonScan = (Button) findViewById(R.id.scan_button);
+
 		buttonScan.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-				buttonScanOnClickProcess(); 
-				// Alert Dialog for selecting the BLE device
+				buttonScanOnClickProcess();
 			}
 		});
 
+		historyButton = (Button) findViewById(R.id.history_button);
+
+		historyButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+
+				Intent i = new Intent(MainActivity.this, HistoryActivity.class);
+
+				startActivity(i);
+
+			}
+
+		});
+
+
 		for (int i = 0; i < 10; i++) {
-			JSONObject j = null;
+			JSONObject jason = null;
 			try {
-				j = new JSONObject("{\"test" + i + "\":\"succss\"}");
-				SubmissionSaver.saveSubmission(j, this);
+				jason = new JSONObject("{\"test" + i + "\":\"succss\"}");
+				SubmissionSaver.saveSubmission(jason, this);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -98,13 +136,12 @@ public class MainActivity extends BlunoLibrary {
 
 	protected void onResume() {
 		super.onResume();
-		System.out.println("BlUNOActivity onResume");
 		onResumeProcess(); // onResume Process by BlunoLibrary
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		onActivityResultProcess(requestCode, resultCode, data); 
+		onActivityResultProcess(requestCode, resultCode, data);
 		// onActivityResult Process by BlunoLibrary
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -112,28 +149,104 @@ public class MainActivity extends BlunoLibrary {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		onPauseProcess(); 
+		onPauseProcess();
 		// onPause Process by BlunoLibrary
 	}
 
 	protected void onStop() {
 		super.onStop();
-		onStopProcess(); 
+		onStopProcess();
 		// onStop Process by BlunoLibrary
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		onDestroyProcess(); 
+		onDestroyProcess();
 		// onDestroy Process by BlunoLibrary
 	}
-	
+
 	@Override
-	public void onConnectionStateChange(connectionStateEnum theConnectionState) {
-		// Once connection state changes, this function will be called
-		switch (theConnectionState) { 
-		// Four connection state
+	public void onSerialReceived(String data) {
+		// Once connection data received, this function will be called
+
+		JSONObject j;
+		try {
+			j = new JSONObject(data);
+
+			if (WizardState.initial == wizardState) {
+				String status = j.getString("status");
+
+				if (status.equalsIgnoreCase("fatal")) {
+					wizardState = WizardState.error;
+					connectionUpdates.setText("Error in initialising device");
+				} else if (status.equalsIgnoreCase("idle")) {
+					wizardState = WizardState.idle;
+					connectionUpdates.setText("Device is idle, please start the test");
+				} else {
+					// TODO throw exception for unsupported state.
+				}
+
+			} else if (WizardState.idle == wizardState) {
+				String status = j.getString("status");
+
+				String message;
+
+				if (status.equalsIgnoreCase("complete")) {
+
+					wizardState = WizardState.complete;
+
+
+					SubmissionSaver.saveSubmission(j, this);
+
+					Intent i = new Intent(this, ResultsActivity.class);
+
+					i.putExtra("HEY", j.toString());
+
+					startActivity(i);
+
+				} else if (status.equalsIgnoreCase("busy")) {
+					message = "Device is currently busy";
+				} else {
+
+
+					wizardState = WizardState.error;
+
+					if (status.equalsIgnoreCase("fatal")) {
+						message = "A fatal error has occured";
+					} else if (status.equalsIgnoreCase("bt4le")) {
+						message = "There's a Bluetooth connection issue, please check device settings";
+					} else if (status.equalsIgnoreCase("temp")) {
+						message = "Temperature is to high/low please remove Bluetooth device from water";
+					} else if (status.equalsIgnoreCase("ec")) {
+						message = "Issue occured while measuring the electrical conductivity, please remove from water";
+					} else if (status.equalsIgnoreCase("water level low")) {
+						message = "Device not submerged in water deeply enough, please restart test";
+					} else {
+						message = "An unknown exception has occurred, please restart the test";
+					}
+				}
+				//connectionUpdates.setText(message);
+
+			} else {
+				// TODO throw an exception for unsupported wizard state.
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		// go do next action
+		// The Serial data from the BLUNO may be sub-packaged, so using a buffer
+		// to hold the String is a good choice.
+
+	}
+
+	@Override
+	public void onConectionStateChange(
+			connectionStateEnum theconnectionStateEnum) {
+		switch (theconnectionStateEnum) { // Four connection state
+
 		case isConnected:
 			buttonScan.setText("Connected");
 			break;
@@ -152,107 +265,6 @@ public class MainActivity extends BlunoLibrary {
 		default:
 			break;
 		}
-	}
-
-	@Override
-	public void onSerialReceived(String data) {
-		// Once connection data received, this function will be called
-		
-		JSONObject j;
-		try {
-			
-			j = new JSONObject(data);
-
-			if (WizardState.initial == wizardState) {
-				String status = j.getString("status");
-
-				if (status.equalsIgnoreCase("fatal")) {
-					wizardState = WizardState.error;
-					// TODO show error
-				} else if (status.equalsIgnoreCase("idle")) {
-					wizardState = WizardState.idle;
-				} else {
-					// TODO throw exception for unsupported state.
-				}
-
-			} else if (WizardState.idle == wizardState) {
-				String status = j.getString("status");
-				// TODO was is a failure or success?
-				if (status.equalsIgnoreCase("idle")) {
-					wizardState = WizardState.complete;
-					this.sendStartMessage();
-				} else if (status.equalsIgnoreCase("fatal")) {
-					// TODO show error
-				} else if (status.equalsIgnoreCase("bt4le")) {
-					// TODO Bluetooth communication error / JSON error
-				} else if (status.equalsIgnoreCase("temp")) {
-					// TODO Temperature status error
-				} else if (status.equalsIgnoreCase("ec")) {
-					// TODO Electric conductivity error
-				} else if (status.equalsIgnoreCase("ph")) {
-					// TODO ph sensor error
-				} else if (status.equalsIgnoreCase("water level low")) {
-					// TODO sensor is not immersed in water
-				} else if (status.equalsIgnoreCase("busy")) {
-					// TODO device is busy
-				} else {
-					// TODO throw exception for unsupported state.
-				}
-
-			} else if (WizardState.complete == wizardState) {
-				// TODO save data
-				
-				Boolean sent;
-				try{
-					//TODO send to website
-					sent = true;
-				}
-				catch(Exception e){
-					sent = false;
-				}
-				j.put("sent", sent);
-				SubmissionSaver.saveSubmission(j, this);
-				
-				Intent intent = new Intent(this, Results.class);
-				intent.putExtra(JSON_MESSAGE, j.toString());
-				startActivity(intent);
-				
-				//TODO remove this and add it to the onCreate method in the results activity
-				river = new RiverData(this.getApplicationContext(), j, track);
-				// TODO what do you want to do now
-
-				
-			} else {
-				// TODO throw an exception for unsupported wizard state.
-			}
-
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// go do next action
-		serialReceivedText.append(data); // append the text into the EditText
-		// The Serial data from the BLUNO may be sub-packaged, so using a buffer
-		// to hold the String is a good choice.
 
 	}
-
-	private void sendStartMessage() {
-		JSONObject j = new JSONObject();
-		try {
-			j.put("cmd", "test");
-			j.put("session", "AD"); // TODO what do we put in here - do we even need it?
-			String gpsData = String.valueOf(river.getLat())+" "+String.valueOf(river.getLon()); //+String.valueOf(river.getAlt());
-			j.put("gps_data", gpsData);
-			String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Calendar.getInstance().getTime());
-			j.put("time", currTime);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		serialSend(j.toString()); // send the data to the BLUNO
-	}
-
-	
-
 }
