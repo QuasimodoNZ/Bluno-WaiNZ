@@ -1,25 +1,19 @@
 package com.example.blunobasicdemo;
 
-import java.text.SimpleDateFormat;
-
 import org.json.*;
 
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import java.text.ParseException;
-
-import java.util.Date;
-
-
 public class RiverData {
 
 	Float lat, lon, temperature, conductivity;
 
-	Date readingDate;
+	String readingDate;
 
-	String ID, session;
+	String id, session;
+
 	Context context;
 
 	public RiverData(Context c, JSONObject j){
@@ -37,34 +31,20 @@ public class RiverData {
 	};
 
 	public void PopulateModel(JSONObject j){
-		String date_i = null;
-		String conductivity_i = null;
-		String temperature_i = null;
-
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss a");
 
 		try{
 			//Get strings from JSON
-			String status = j.getString("status");//assuming test status will be in data packet
-			ID = j.getString("id");
+			//String status = j.getString("status");//assuming test status will be in data packet
+			id = j.getString("id");
 			session = j.getString("session");
-			date_i = j.getString("time");
-		    conductivity_i = j.getString("ec");
-			temperature_i = j.getString("temp");
-
-
-			//Convert the ones that aren't strings
-			readingDate = (Date)formatter.parse(date_i);
-			conductivity = Float.parseFloat(conductivity_i);
-			temperature = Float.parseFloat(temperature_i);
+			readingDate = j.getString("time");
+		    conductivity = Float.parseFloat(j.getString("ec"));
+			temperature = Float.parseFloat(j.getString("temp"));
 
 			System.out.printf("Date: %s, Conductivity: %f, Temperature: %f \n", readingDate, conductivity, temperature);
 
 		}
 		catch (JSONException e){
-			e.printStackTrace();
-		}
-		catch (ParseException e){
 			e.printStackTrace();
 		}
 	}
@@ -85,12 +65,12 @@ public class RiverData {
 		return lon;
 	}
 
-	public Date getReadingDate() {
+	public String getReadingDate() {
 		return readingDate;
 	}
 
-	public String getID() {
-		return ID;
+	public String getId() {
+		return id;
 	}
 
 	public String getSession() {

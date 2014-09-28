@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import org.json.JSONArray;
@@ -43,7 +44,7 @@ public class HistoryActivity extends Activity {
 
 				js.put("id", r.nextInt(100));
 				js.put("session", r.nextLong());
-				js.put("time", "2014-09-24 11:11:11.111");
+				js.put("time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime()));
 				js.put("ec", r.nextInt(1));
 				js.put("temp", r.nextInt(25));
 

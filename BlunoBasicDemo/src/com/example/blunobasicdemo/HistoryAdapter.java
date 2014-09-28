@@ -76,7 +76,7 @@ public class HistoryAdapter extends BaseAdapter {
 
         if(date != null)
 
-        date.setText("Reading taken on: ");
+        date.setText("Reading taken on: " + data.readingDate);
 
         //do something...
 
