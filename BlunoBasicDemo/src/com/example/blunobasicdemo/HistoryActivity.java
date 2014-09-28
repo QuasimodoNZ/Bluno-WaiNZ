@@ -14,7 +14,10 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class HistoryActivity extends Activity {
@@ -70,5 +73,17 @@ public class HistoryActivity extends Activity {
 		listView.setAdapter(adapter);
 
 		adapter.notifyDataSetChanged();
+
+		// Sets the back button so that it returns to the previous page
+				((Button) findViewById(R.id.backButton))
+					.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							onBackPressed();
+
+						}
+				});
+
 	}
 }

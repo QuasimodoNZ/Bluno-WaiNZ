@@ -150,6 +150,17 @@ public class MainActivity extends BlunoLibrary {
 				e.printStackTrace();
 			}
 		}
+
+		// Sets the back button so that it returns to the previous page
+		((Button) findViewById(R.id.backButton))
+			.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					onBackPressed();
+
+				}
+		});
 	}
 
 	protected void onResume() {
