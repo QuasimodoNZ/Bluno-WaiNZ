@@ -23,7 +23,9 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class ResultsActivity extends FragmentActivity {
 
@@ -59,15 +61,13 @@ public class ResultsActivity extends FragmentActivity {
 
 		imageview.setImageBitmap(
 			    bitmap);
+		
+		LinearLayout opacityOfLayout = (LinearLayout) findViewById(R.id.content_layout_review);
+		
+		opacityOfLayout.setAlpha(0.5f);
 
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
-
-		Animation an = new RotateAnimation(0.0f, 90.0f, 250f, 273f);
-
-		an.setFillAfter(true);
-		condPb.startAnimation(an);
-		tempPb.startAnimation(an);
 
 
 		//MAP

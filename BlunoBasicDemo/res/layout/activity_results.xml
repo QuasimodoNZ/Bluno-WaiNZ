@@ -30,138 +30,121 @@
                 android:id="@+id/backButton"
                 style="@style/backButtonStyle" />
         </FrameLayout>
-
-        <FrameLayout
+<LinearLayout
+    android:id="@+id/content_layout_review"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:background="@color/White"
+    android:layout_weight="0.75"
+    >
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_weight="0.70" >
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:orientation="horizontal" >
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/conductivity_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:text="Conductivity"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/temperature_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:text="Temperature"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ProgressBar
+                android:id="@+id/conductivity_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.50"
+                android:indeterminate="false"
+                android:max="48"
+                android:progress="45"
+                android:progressDrawable="@drawable/progressbar2" />
+
+            <ProgressBar
+                android:id="@+id/temperature_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.50"
+                android:indeterminate="false"
+                android:max="48"
+                android:progress="45"
+                android:progressDrawable="@drawable/progressbar2" />
+        </LinearLayout>
+        
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content" >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/lat_long"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:orientation="horizontal" >
+                    android:layout_weight="0.50"
+                    android:gravity="center"
+                    android:text="Lat/Long"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.50"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/conductivity_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.50"
-                            android:text="Conductivity"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                        <ProgressBar
-                            android:id="@+id/conductivity_progress"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="fill_parent"
-                            android:layout_height="10px"
-                            android:layout_marginLeft="15dp"
-                            android:layout_weight="0.50"
-                            android:indeterminate="false"
-                            android:max="48"
-                            android:progress="45"
-                            android:progressDrawable="@drawable/progressbar2" />
-
-                        <TextView
-                            android:id="@+id/conductivity_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="6.0"
-                            android:text="CondValue"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.50"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:id="@+id/temperature_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.50"
-                            android:text="Temperature"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                        <ProgressBar
-                            android:id="@+id/temperature_progress"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="fill_parent"
-                            android:layout_height="10px"
-                            android:layout_marginLeft="15dp"
-                            android:layout_weight="0.50"
-                            android:indeterminate="false"
-                            android:max="48"
-                            android:progress="45"
-                            android:progressDrawable="@drawable/progressbar2" />
-
-                        <TextView
-                            android:id="@+id/temperature_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="6.0"
-                            android:text="TempValue"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/device_id"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.32" >
+                    android:layout_weight="0.50"
+                    android:text="Device ID"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                    <TextView
-                        android:id="@+id/lat_long"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.50"
-                        android:text="Lat/Long"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                    <TextView
-                        android:id="@+id/device_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.50"
-                        android:text="Device ID"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5" >
-
-                    <TextView
-                        android:id="@+id/date_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Date and time"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
-                </LinearLayout>
             </LinearLayout>
-        </FrameLayout>
+            
+                    <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp" >
+
+                <TextView
+                    android:id="@+id/date_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Date and time"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </LinearLayout>
+          </LinearLayout>  
 
         <FrameLayout
             android:id="@+id/results_map_frame"
             android:layout_width="fill_parent"
-            android:layout_height="158dp"
-            android:layout_weight="0.05" >
+            android:layout_height="140dp" 
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp">
         </FrameLayout>
 
         <LinearLayout
@@ -185,4 +168,5 @@
                 android:text="@string/discard_data" />
         </LinearLayout>
     </LinearLayout>
+
 </FrameLayout>

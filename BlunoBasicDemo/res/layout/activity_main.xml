@@ -46,6 +46,7 @@
                 android:padding="30dp"
                 android:text="Press the connect button to start."
                 android:textSize="30sp" />
+            
         </FrameLayout>
 
         <Button
