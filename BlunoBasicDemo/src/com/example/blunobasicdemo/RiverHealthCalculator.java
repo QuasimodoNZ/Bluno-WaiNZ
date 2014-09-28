@@ -42,7 +42,15 @@ public class RiverHealthCalculator{
 		return 0;
 	}
 
-	public float CompareHealth(){
+	public int CompareHealth(){
 		return 0;
+	}
+
+	public int[] getData(){
+		int out[] = {0,0,0};
+		out[0] = this.CompareConductivity();
+		out[1] = this.CompareTemperature();
+		out[2] = this.CompareHealth();
+		return out;
 	}
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import java.text.ParseException;
+
 import java.util.Date;
 
 
@@ -25,6 +26,7 @@ public class RiverData {
 		this.context = c;
 		this.PopulateModel(j);
 	}
+
 
 	 OnClickListener listener = new OnClickListener(){ // the book's action
 			@Override
@@ -43,11 +45,13 @@ public class RiverData {
 
 		try{
 			//Get strings from JSON
+			String status = j.getString("status");//assuming test status will be in data packet
 			ID = j.getString("id");
 			session = j.getString("session");
 			date_i = j.getString("time");
 		    conductivity_i = j.getString("ec");
 			temperature_i = j.getString("temp");
+
 
 			//Convert the ones that aren't strings
 			readingDate = (Date)formatter.parse(date_i);

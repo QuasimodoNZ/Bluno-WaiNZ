@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends BlunoLibrary {
+	public static final String JSON_MESSAGE = "INTENT_MESSAGE_COLLECTED_DATA";
 	private Button buttonScan;
 	private Button historyButton;
 	private Button connectToDevice;
@@ -31,6 +32,8 @@ public class MainActivity extends BlunoLibrary {
 	private TextView serialReceivedText;
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
+	private RiverData river;
+	private UserLocationTracker track;
 
 	public enum WizardState {
 		initial, idle, error, complete
@@ -95,12 +98,6 @@ public class MainActivity extends BlunoLibrary {
 
 		imageview.setImageBitmap(
 			    bitmap);
-
-		/*
-		Drawable d = new BitmapDrawable(getResources(),bitmap);
-
-		imageview.setBackgroundDrawable(d);
-		*/
 
 		TextView connectionUpdate = (TextView) findViewById(R.id.connection_updates);
 
@@ -198,50 +195,29 @@ public class MainActivity extends BlunoLibrary {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		onActivityResultProcess(requestCode, resultCode, data); // onActivityResult
-																// Process by
-																// BlunoLibrary
+		onActivityResultProcess(requestCode, resultCode, data);
+		// onActivityResult Process by BlunoLibrary
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		onPauseProcess(); // onPause Process by BlunoLibrary
+		onPauseProcess();
+		// onPause Process by BlunoLibrary
 	}
 
 	protected void onStop() {
 		super.onStop();
-		onStopProcess(); // onStop Process by BlunoLibrary
+		onStopProcess();
+		// onStop Process by BlunoLibrary
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		onDestroyProcess(); // onDestroy Process by BlunoLibrary
-	}
-
-	@Override
-	public void onConectionStateChange(connectionStateEnum theConnectionState) {
-		switch (theConnectionState) { // Four connection state
-		case isConnected:
-			buttonScan.setText("Connected");
-			break;
-		case isConnecting:
-			buttonScan.setText("Connecting");
-			break;
-		case isToScan:
-			buttonScan.setText("Scan");
-			break;
-		case isScanning:
-			buttonScan.setText("Scanning");
-			break;
-		case isDisconnecting:
-			buttonScan.setText("isDisconnecting");
-			break;
-		default:
-			break;
-		}
+		onDestroyProcess();
+		// onDestroy Process by BlunoLibrary
 	}
 
 	@Override
@@ -250,7 +226,6 @@ public class MainActivity extends BlunoLibrary {
 
 		JSONObject j;
 		try {
-
 			j = new JSONObject(data);
 
 			if (WizardState.initial == wizardState) {
@@ -275,6 +250,7 @@ public class MainActivity extends BlunoLibrary {
 
 					wizardState = WizardState.complete;
 
+
 					SubmissionSaver.saveSubmission(j, this);
 
 					Intent i = new Intent(this, ResultsActivity.class);
@@ -286,6 +262,7 @@ public class MainActivity extends BlunoLibrary {
 				} else if (status.equalsIgnoreCase("busy")) {
 					message = "Device is currently busy";
 				} else {
+
 
 					wizardState = WizardState.error;
 
@@ -320,4 +297,29 @@ public class MainActivity extends BlunoLibrary {
 
 	}
 
+	@Override
+	public void onConectionStateChange(
+			connectionStateEnum theconnectionStateEnum) {
+		switch (theconnectionStateEnum) { // Four connection state
+
+		case isConnected:
+			buttonScan.setText("Connected");
+			break;
+		case isConnecting:
+			buttonScan.setText("Connecting");
+			break;
+		case isToScan:
+			buttonScan.setText("Scan");
+			break;
+		case isScanning:
+			buttonScan.setText("Scanning");
+			break;
+		case isDisconnecting:
+			buttonScan.setText("isDisconnecting");
+			break;
+		default:
+			break;
+		}
+
+	}
 }
