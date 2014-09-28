@@ -25,12 +25,13 @@
         android:layout_height="0dp"
         android:layout_weight="0.28"
         android:padding="10dp">
-        <TextView android:layout_width="fill_parent"
+        <TextView android:id="@+id/connection_updates"
+            	  android:layout_width="fill_parent"
             	  android:layout_height="fill_parent"
             	  android:background="@color/Gray"
             	  android:padding="30dp"
             	  android:textSize="30sp"
-            	  android:text="Found bluetooth device(ID:1234).\n\nPress the connect button to start."/>
+            	  android:text="Press the connect button to start."/>
     </FrameLayout>
 
     <Button
