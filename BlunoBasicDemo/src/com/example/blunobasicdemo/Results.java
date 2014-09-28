@@ -20,37 +20,18 @@ public class Results extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_results);
 
-<<<<<<< HEAD
-		ProgressBar pb = (ProgressBar) this.findViewById(R.id.progressBarToday);
-=======
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
->>>>>>> feature/layouts
 
 		Animation an = new RotateAnimation(0.0f, 90.0f, 250f, 273f);
 
 		an.setFillAfter(true);
-<<<<<<< HEAD
-		pb.startAnimation(an);
-
-		Intent intent = getIntent();
-		JSONObject jsonObject;
-		try {
-			jsonObject = new JSONObject(
-					intent.getStringExtra(MainActivity.JSON_MESSAGE));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-=======
 		condPb.startAnimation(an);
 		tempPb.startAnimation(an);
 
 	    //Remove title bar
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
->>>>>>> feature/layouts
 	}
 
 	@Override
