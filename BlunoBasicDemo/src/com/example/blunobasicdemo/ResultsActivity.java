@@ -63,6 +63,9 @@ public class ResultsActivity extends FragmentActivity {
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
 
+		condPb.setProgress((int) (1/(100 * data.getConductivity())));
+		tempPb.setProgress((int) (45/ (100 * data.getTemperature())));
+		
 		TextView latlon = (TextView) this.findViewById(R.id.lat_long);
 		latlon.setText("Lat/Long: " + data.getLat()  + ", " + data.getLon());
 
