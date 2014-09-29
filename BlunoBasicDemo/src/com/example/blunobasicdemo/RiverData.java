@@ -21,15 +21,6 @@ public class RiverData {
 		this.PopulateModel(j);
 	}
 
-
-	 OnClickListener listener = new OnClickListener(){ // the book's action
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-			}
-	};
-
 	public void PopulateModel(JSONObject j){
 
 		try{
@@ -40,7 +31,17 @@ public class RiverData {
 			readingDate = j.getString("time");
 		    conductivity = Float.parseFloat(j.getString("ec"));
 			temperature = Float.parseFloat(j.getString("temp"));
-
+			String[] gps = j.getString("gps").split(" - ");
+			if(gps.length > 1){
+				lat = Float.parseFloat(gps[0]);
+				lon = Float.parseFloat(gps[1]);
+			} else {
+				//get current location
+				UserLocationTracker l = new UserLocationTracker(context);
+				l.getLocation();
+				lat = l.getLat();
+				lon = l.getLon();
+			}
 			System.out.printf("Date: %s, Conductivity: %f, Temperature: %f \n", readingDate, conductivity, temperature);
 
 		}
@@ -82,6 +83,8 @@ public class RiverData {
 		try {
 			jason.put("id", id);
 			jason.put("session", session);
+			jason.put("lat", lat);
+			jason.put("lon", lat);
 			jason.put("time", readingDate);
 			jason.put("ec", conductivity);
 			jason.put("temp", temperature);

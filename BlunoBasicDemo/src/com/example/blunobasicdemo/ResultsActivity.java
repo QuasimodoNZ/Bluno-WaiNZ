@@ -54,16 +54,9 @@ public class ResultsActivity extends FragmentActivity {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-		ImageView imageview = (ImageView) findViewById(R.id.image_results_view);
 
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tomassobek);
-
-		imageview.setImageBitmap(
-			    bitmap);
-		
 		LinearLayout opacityOfLayout = (LinearLayout) findViewById(R.id.content_layout_review);
-		
+
 		opacityOfLayout.setAlpha(0.5f);
 
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
@@ -81,7 +74,7 @@ public class ResultsActivity extends FragmentActivity {
 
 		map.lat = t.getLat();
 		map.lon = t.getLon();
-		
+
 		fragmentTransaction.add(R.id.results_map_frame, map);
 		fragmentTransaction.commit();
 

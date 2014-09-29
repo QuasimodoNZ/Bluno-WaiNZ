@@ -3,13 +3,9 @@
     android:id="@+id/results_frame"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+        android:background="@drawable/tomassobek"
     android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/image_results_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -96,7 +92,7 @@
                 android:progress="45"
                 android:progressDrawable="@drawable/progressbar2" />
         </LinearLayout>
-        
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
@@ -120,7 +116,7 @@
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
             </LinearLayout>
-            
+
                     <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,12 +132,12 @@
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
             </LinearLayout>
-          </LinearLayout>  
+          </LinearLayout>
 
         <FrameLayout
             android:id="@+id/results_map_frame"
             android:layout_width="fill_parent"
-            android:layout_height="140dp" 
+            android:layout_height="140dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp">

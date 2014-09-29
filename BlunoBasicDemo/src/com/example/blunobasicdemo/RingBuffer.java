@@ -10,13 +10,13 @@ public class RingBuffer<T> {
 
     // cast needed since no generic array creation in Java
     public RingBuffer(int capacity) {
-        buffer = (T[]) new Object[capacity];
+        buffer = (T[]) new Object[128];
     }
 
     public boolean isEmpty() {
         return count == 0;
     }
-    
+
     public boolean isFull() {
         return count == buffer.length;
     }
@@ -28,7 +28,7 @@ public class RingBuffer<T> {
     public void clear() {
         count=0;
     }
-    
+
     public void push(T item) {
         if (count == buffer.length) {
         	System.out.println("Ring buffer overflow");
@@ -57,7 +57,7 @@ public class RingBuffer<T> {
         indexOut = (indexOut + 1) % buffer.length; // wrap-around
         return item;
     }
-    
+
     public T next() {
         if (isEmpty()) {
         	System.out.println("Ring buffer next underflow");

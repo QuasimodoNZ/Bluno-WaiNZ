@@ -43,7 +43,6 @@ public class MainActivity extends BlunoLibrary {
 		idle, fatal, bt4le, temp, ec, ph, water, busy
 	};
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -52,16 +51,10 @@ public class MainActivity extends BlunoLibrary {
 
 		onCreateProcess();
 
-		String currTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+		String currTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+				Locale.getDefault()).format(Calendar.getInstance().getTime());
 
 		serialBegin(115200);
-
-		ImageView imageview = (ImageView) findViewById(R.id.image_view);
-
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tomassobek);
-
-		imageview.setImageBitmap(
-			    bitmap);
 
 		TextView connectionUpdate = (TextView) findViewById(R.id.connection_updates);
 
@@ -79,7 +72,7 @@ public class MainActivity extends BlunoLibrary {
 				try {
 					jason.put("cmd", "init");
 					jason.put("dev", "ad");
-				} catch (JSONException e){
+				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				serialSend(jason.toString());
@@ -89,9 +82,9 @@ public class MainActivity extends BlunoLibrary {
 
 		testWaterQuality = (Button) findViewById(R.id.start_button);
 
-		testWaterQuality.setOnClickListener(new OnClickListener(){
+		testWaterQuality.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v){
+			public void onClick(View v) {
 
 				JSONObject j = new JSONObject();
 				UserLocationTracker t = new UserLocationTracker(
@@ -101,9 +94,12 @@ public class MainActivity extends BlunoLibrary {
 				try {
 					j.put("cmd", "test");
 					j.put("session", "ad");
-					String gpsData = String.valueOf(t.getLat())+", "+String.valueOf(t.getLon());
+					String gpsData = String.valueOf(t.getLat()) + " - "
+							+ String.valueOf(t.getLon());
 					j.put("gps", gpsData);
-					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
+							Locale.getDefault()).format(Calendar.getInstance()
+							.getTime());
 
 					j.put("time", currTime);
 				} catch (JSONException e) {
@@ -111,7 +107,7 @@ public class MainActivity extends BlunoLibrary {
 				}
 
 				serialSend(j.toString());
-				//connectionUpdates.setText("Initialising device");
+				// connectionUpdates.setText("Initialising device");
 			}
 		});
 
@@ -127,7 +123,7 @@ public class MainActivity extends BlunoLibrary {
 
 		historyButton = (Button) findViewById(R.id.history_button);
 
-		historyButton.setOnClickListener(new OnClickListener(){
+		historyButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -139,7 +135,6 @@ public class MainActivity extends BlunoLibrary {
 			}
 
 		});
-
 
 		for (int i = 0; i < 10; i++) {
 			JSONObject jason = null;
@@ -153,14 +148,14 @@ public class MainActivity extends BlunoLibrary {
 
 		// Sets the back button so that it returns to the previous page
 		((Button) findViewById(R.id.backButton))
-			.setOnClickListener(new OnClickListener() {
+				.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					onBackPressed();
+					@Override
+					public void onClick(View v) {
+						onBackPressed();
 
-				}
-		});
+					}
+				});
 	}
 
 	protected void onResume() {
@@ -195,81 +190,94 @@ public class MainActivity extends BlunoLibrary {
 		// onDestroy Process by BlunoLibrary
 	}
 
+	String message = "";
+
 	@Override
 	public void onSerialReceived(String data) {
 		// Once connection data received, this function will be called
+		if (!data.contains("stop")) {
+			message += data;
+		} else {
 
-		JSONObject j;
-		try {
-			j = new JSONObject(data);
+			message += data;
 
-			if (WizardState.initial == wizardState) {
-				String status = j.getString("status");
+			message = message.split("&")[0];
 
-				if (status.equalsIgnoreCase("fatal")) {
-					wizardState = WizardState.error;
-					//connectionUpdates.setText("Error in initialising device");
-				} else if (status.equalsIgnoreCase("idle")) {
-					wizardState = WizardState.idle;
-					//connectionUpdates.setText("Device is idle, please start the test");
-				} else {
-					// TODO throw exception for unsupported state.
-				}
+			JSONObject j;
 
-			} else if (WizardState.idle == wizardState) {
-				String status = j.getString("status");
+			try {
+				j = new JSONObject(message);
 
-				String message = "";
-
-				if (status.equalsIgnoreCase("complete")) {
-
-					wizardState = WizardState.complete;
-
-
-					SubmissionSaver.saveSubmission(j, this);
-
-					Intent i = new Intent(this, ResultsActivity.class);
-
-					i.putExtra("HEY", j.toString());
-
-					startActivity(i);
-
-				} else if (status.equalsIgnoreCase("busy")) {
-					message = "Device is currently busy";
-				} else {
-
-
-					wizardState = WizardState.error;
+				if (WizardState.initial == wizardState) {
+					String status = j.getString("status");
 
 					if (status.equalsIgnoreCase("fatal")) {
-						message = "A fatal error has occured";
-					} else if (status.equalsIgnoreCase("bt4le")) {
-						message = "There's a Bluetooth connection issue, please check device settings";
-					} else if (status.equalsIgnoreCase("temp")) {
-						message = "Temperature is to high/low please remove Bluetooth device from water";
-					} else if (status.equalsIgnoreCase("ec")) {
-						message = "Issue occured while measuring the electrical conductivity, please remove from water";
-					} else if (status.equalsIgnoreCase("water level low")) {
-						message = "Device not submerged in water deeply enough, please restart test";
+						wizardState = WizardState.error;
+						// connectionUpdates.setText("Error in initialising device");
+					} else if (status.equalsIgnoreCase("idle")) {
+						wizardState = WizardState.idle;
+						// connectionUpdates.setText("Device is idle, please start the test");
 					} else {
-						message = "An unknown exception has occurred, please restart the test";
+						// TODO throw exception for unsupported state.
 					}
+
+				} else if (WizardState.idle == wizardState) {
+					String status = j.getString("status");
+
+					String message = "";
+
+					if (status.equalsIgnoreCase("complete")) {
+
+						wizardState = WizardState.complete;
+
+						SubmissionSaver.saveSubmission(j, this);
+
+						Intent i = new Intent(this, ResultsActivity.class);
+
+						i.putExtra("RiverData", j.toString());
+
+						startActivity(i);
+
+					} else if (status.equalsIgnoreCase("busy")) {
+						message = "Device is currently busy";
+					} else {
+
+						wizardState = WizardState.error;
+
+						if (status.equalsIgnoreCase("fatal")) {
+							message = "A fatal error has occured";
+						} else if (status.equalsIgnoreCase("bt4le")) {
+							message = "There's a Bluetooth connection issue, please check device settings";
+						} else if (status.equalsIgnoreCase("temp")) {
+							message = "Temperature is to high/low please remove Bluetooth device from water";
+						} else if (status.equalsIgnoreCase("ec")) {
+							message = "Issue occured while measuring the electrical conductivity, please remove from water";
+						} else if (status.equalsIgnoreCase("water level low")) {
+							message = "Device not submerged in water deeply enough, please restart test";
+						} else {
+							message = "An unknown exception has occurred, please restart the test";
+						}
+					}
+
+					// connectionUpdates.setText(message);
+
+				} else {
+					// TODO do we want the user to see this or remove after
+					// debugging?
+					String message = "Unrecognised data received from device";
+					connectionUpdates.setText(message);
+					// Reset the device when it sends us unknown data
+					JSONObject n = new JSONObject();
+					n.put("cmd", "reset");
+					serialSend(n.toString());
 				}
 
-				connectionUpdates.setText(message);
-
-			} else {
-				//TODO do we want the user to see this or remove after debugging?
-				String message = "Unrecognised data received from device";
-				connectionUpdates.setText(message);
-				//Reset the device when it sends us unknown data
-				JSONObject n = new JSONObject();
-				n.put("cmd", "reset");
-				serialSend(n.toString());
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 
-		} catch (JSONException e) {
-			e.printStackTrace();
+			message = "";
+
 		}
 
 	}

@@ -66,7 +66,7 @@ public class HistoryAdapter extends BaseAdapter {
         }
         else
         	health.setProgress(r.nextInt(100));
-        
+
         convertView.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -76,10 +76,6 @@ public class HistoryAdapter extends BaseAdapter {
 				activity.startActivity(i);
 			}});
 
-
-//        health.setProgress(70);
-
-        //health.setProgress(progress);
         TextView date = (TextView) convertView.findViewById(R.id.date);
 
         // getting RiverData data for the row
