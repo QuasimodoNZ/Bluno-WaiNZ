@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.ContactsContract.Data;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -36,7 +37,7 @@ public class ResultsActivity extends FragmentActivity {
 	//DATA
 	private JSONObject jason;
 
-	private Map<String, String> data = new HashMap<String, String>();
+	//private Map<String, String> data = new HashMap<String, String>();
 
 
 	@Override
@@ -47,10 +48,10 @@ public class ResultsActivity extends FragmentActivity {
 		setContentView(R.layout.activity_results);
 
 		Intent intent = getIntent();
-
+		RiverData data = null;
 		try {
 			jason = new JSONObject(intent.getStringExtra("RiverData"));
-			this.parseJSON(jason);
+			data = new RiverData(this, jason);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -62,7 +63,13 @@ public class ResultsActivity extends FragmentActivity {
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
 
+		TextView latlon = (TextView) this.findViewById(R.id.lat_long);
+		latlon.setText("Lat/Long: " + data.getLat()  + ", " + data.getLon());
 
+		TextView time = (TextView) this.findViewById(R.id.date_time);
+		time.setText("Time and date: " + data.getReadingDate());
+		
+		
 		//MAP
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -96,7 +103,7 @@ public class ResultsActivity extends FragmentActivity {
 				//TODO do we need some kind of check ("Are you sure you want to delete this data")
 
 				//Remove the submission
-				SubmissionSaver.removeEntry(Integer.parseInt(data.get("entryID")), ResultsActivity.this);
+				//SubmissionSaver.removeEntry(Integer.parseInt(data.get("entryID")), ResultsActivity.this);
 
 				//Redirect the user back to the history page?
 				//TODO or should this be the main page?
@@ -117,20 +124,22 @@ public class ResultsActivity extends FragmentActivity {
 				});
 
 	}
-
+/*
 	/**
 	 * Takes the given JSON object and puts it into the map for use in the activity
 	 * @param json The object containing the results data
 	 * @throws JSONException
-	 */
+	 
 	private void parseJSON(JSONObject json) throws JSONException {
 		this.data.put("conductivity", json.getString("conductivity"));
 		this.data.put("temperature", json.getString("temperature"));
-		this.data.put("deviceID", json.getString("deviceID"));
-		this.data.put("entryID", json.getString("entryID"));
+		//this.data.put("deviceID", json.getString("deviceID"));
+		//this.data.put("entryID", json.getString("entryID"));
 		this.data.put("time", json.getString("time"));
 		this.data.put("date", json.getString("date"));
+		this.data.put("location", json.getString("gps"));
 	}
+	*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
