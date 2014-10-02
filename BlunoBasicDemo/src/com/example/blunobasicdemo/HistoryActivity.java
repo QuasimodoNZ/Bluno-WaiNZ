@@ -35,11 +35,18 @@ public class HistoryActivity extends Activity {
 		SubmissionSaver s = new SubmissionSaver();
 		JSONArray json = s.getJsonArray(c);
 
-		json = new JSONArray();
+		//json = new JSONArray();
 
 		List<RiverData> models = new ArrayList<RiverData>(json.length());
 
-
+		for(int i = 0; i < json.length(); i++){
+			try {
+				models.add(new RiverData(c, json.getJSONObject(i)));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+/*
 		Random r = new Random();
 		for(int j = 0; j < 30; j++){
 			JSONObject js = new JSONObject();
@@ -58,7 +65,8 @@ public class HistoryActivity extends Activity {
 			json.put(js);
 
 		}
-
+*/
+		/*
 		for(int i = 0; i < json.length(); i++){
 			try {
 				System.out.println(json.getJSONObject(i).toString());
@@ -67,7 +75,7 @@ public class HistoryActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
-
+*/
 		HistoryAdapter adapter = new HistoryAdapter(this, models);
 
 		listView.setAdapter(adapter);

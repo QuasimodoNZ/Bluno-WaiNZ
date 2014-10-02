@@ -2,6 +2,7 @@ package com.example.blunobasicdemo;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,19 +61,21 @@ public class ResultsActivity extends FragmentActivity {
 
 		opacityOfLayout.setAlpha(0.5f);
 
+		Random r = new Random();
+
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
 
-		condPb.setProgress((int) (1/(100 * data.getConductivity())));
-		tempPb.setProgress((int) (45/ (100 * data.getTemperature())));
-		
+		condPb.setProgress(r.nextInt(100));
+		tempPb.setProgress(r.nextInt(100));
+
 		TextView latlon = (TextView) this.findViewById(R.id.lat_long);
 		latlon.setText("Lat/Long: " + data.getLat()  + ", " + data.getLon());
 
 		TextView time = (TextView) this.findViewById(R.id.date_time);
 		time.setText("Time and date: " + data.getReadingDate());
-		
-		
+
+
 		//MAP
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -132,7 +135,7 @@ public class ResultsActivity extends FragmentActivity {
 	 * Takes the given JSON object and puts it into the map for use in the activity
 	 * @param json The object containing the results data
 	 * @throws JSONException
-	 
+
 	private void parseJSON(JSONObject json) throws JSONException {
 		this.data.put("conductivity", json.getString("conductivity"));
 		this.data.put("temperature", json.getString("temperature"));

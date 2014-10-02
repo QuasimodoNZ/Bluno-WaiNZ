@@ -97,7 +97,7 @@ public class MainActivity extends BlunoLibrary {
 					String gpsData = String.valueOf(t.getLat()) + " - "
 							+ String.valueOf(t.getLon());
 					j.put("gps", gpsData);
-					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
+					String currTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
 							Locale.getDefault()).format(Calendar.getInstance()
 							.getTime());
 
@@ -135,16 +135,6 @@ public class MainActivity extends BlunoLibrary {
 			}
 
 		});
-
-		for (int i = 0; i < 10; i++) {
-			JSONObject jason = null;
-			try {
-				jason = new JSONObject("{\"test" + i + "\":\"succss\"}");
-				SubmissionSaver.saveSubmission(jason, this);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
 
 		// Sets the back button so that it returns to the previous page
 		((Button) findViewById(R.id.backButton))

@@ -57,7 +57,6 @@ public class HistoryAdapter extends BaseAdapter {
         ProgressBar health = (ProgressBar) convertView.findViewById(R.id.progressBar2);
 
         Random r = new Random();
-
         if(android.os.Build.VERSION.SDK_INT >= 11){
             ObjectAnimator animation = ObjectAnimator.ofInt(health, "progress", 0, r.nextInt(100));
             animation.setDuration(1000);

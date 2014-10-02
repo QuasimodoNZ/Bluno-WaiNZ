@@ -26,7 +26,7 @@ public class RiverData {
 		try{
 			//Get strings from JSON
 			//String status = j.getString("status");//assuming test status will be in data packet
-			id = j.getString("id");
+			//id = j.getString("id");
 			session = j.getString("session");
 			readingDate = j.getString("time");
 		    conductivity = Float.parseFloat(j.getString("ec"));
@@ -81,10 +81,9 @@ public class RiverData {
 	public JSONObject toJson(){
 		JSONObject jason = new JSONObject();
 		try {
-			jason.put("id", id);
+			//jason.put("id", id);
 			jason.put("session", session);
-			jason.put("lat", lat);
-			jason.put("lon", lat);
+			jason.put("gps", lat.toString() +" - " + lon.toString());
 			jason.put("time", readingDate);
 			jason.put("ec", conductivity);
 			jason.put("temp", temperature);
