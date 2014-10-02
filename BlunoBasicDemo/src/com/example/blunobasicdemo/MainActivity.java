@@ -185,13 +185,13 @@ public class MainActivity extends BlunoLibrary {
 	@Override
 	public void onSerialReceived(String data) {
 		// Once connection data received, this function will be called
-		if (!data.contains("stop")) {
+		if (!data.contains("}")) {
 			message += data;
 		} else {
 
 			message += data;
 
-			message = message.split("&")[0];
+			message = message.split("}")[0];
 
 			JSONObject j;
 
