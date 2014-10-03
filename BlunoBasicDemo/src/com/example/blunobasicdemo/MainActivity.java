@@ -191,7 +191,7 @@ public class MainActivity extends BlunoLibrary {
 
 			message += data;
 
-			message = message.split("}")[0];
+			message = message.split("\r")[0];
 
 			JSONObject j;
 
