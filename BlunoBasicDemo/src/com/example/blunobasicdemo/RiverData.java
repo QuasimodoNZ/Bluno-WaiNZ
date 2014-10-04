@@ -83,7 +83,7 @@ public class RiverData {
 		try {
 			//jason.put("id", id);
 			jason.put("session", session);
-			jason.put("gps", lat.toString() +" - " + lon.toString());
+			jason.put("gps", lat.toString() +" " + lon.toString());
 			jason.put("time", readingDate);
 			jason.put("ec", conductivity);
 			jason.put("temp", temperature);

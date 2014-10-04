@@ -51,7 +51,7 @@ public class MainActivity extends BlunoLibrary {
 
 		onCreateProcess();
 
-		String currTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+		String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
 				Locale.getDefault()).format(Calendar.getInstance().getTime());
 
 		serialBegin(115200);
@@ -80,7 +80,7 @@ public class MainActivity extends BlunoLibrary {
 			}
 		});
 
-		testWaterQuality = (Button) findViewById(R.id.start_button);
+ 		testWaterQuality = (Button) findViewById(R.id.start_button);
 
 		testWaterQuality.setOnClickListener(new OnClickListener() {
 			@Override
@@ -94,10 +94,10 @@ public class MainActivity extends BlunoLibrary {
 				try {
 					j.put("cmd", "test");
 					j.put("session", "ad");
-					String gpsData = String.valueOf(t.getLat()) + " - "
+					String gpsData = String.valueOf(t.getLat()) + " "
 							+ String.valueOf(t.getLon());
 					j.put("gps", gpsData);
-					String currTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
 							Locale.getDefault()).format(Calendar.getInstance()
 							.getTime());
 
@@ -216,7 +216,7 @@ public class MainActivity extends BlunoLibrary {
 
 					String message = "";
 
-					if (status.equalsIgnoreCase("complete")) {
+					if (status.equalsIgnoreCase("idle")) {
 
 						wizardState = WizardState.complete;
 
