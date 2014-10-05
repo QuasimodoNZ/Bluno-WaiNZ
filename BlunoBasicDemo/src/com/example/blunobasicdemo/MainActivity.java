@@ -211,7 +211,6 @@ public class MainActivity extends BlunoLibrary {
 					} else {
 						// TODO throw exception for unsupported state.
 					}
-
 				} else if (WizardState.idle == wizardState) {
 					String status = j.getString("status");
 
