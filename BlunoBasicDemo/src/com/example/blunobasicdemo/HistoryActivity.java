@@ -46,36 +46,7 @@ public class HistoryActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
-/*
-		Random r = new Random();
-		for(int j = 0; j < 30; j++){
-			JSONObject js = new JSONObject();
-			try {
 
-				js.put("id", r.nextInt(100));
-				js.put("session", r.nextLong());
-				js.put("time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime()));
-				js.put("ec", r.nextInt(1));
-				js.put("temp", r.nextInt(25));
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-
-			json.put(js);
-
-		}
-*/
-		/*
-		for(int i = 0; i < json.length(); i++){
-			try {
-				System.out.println(json.getJSONObject(i).toString());
-				models.add(new RiverData(c, json.getJSONObject(i)));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-*/
 		HistoryAdapter adapter = new HistoryAdapter(this, models);
 
 		listView.setAdapter(adapter);

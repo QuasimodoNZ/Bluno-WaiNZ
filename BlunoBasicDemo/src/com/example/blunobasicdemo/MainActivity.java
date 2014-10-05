@@ -57,9 +57,9 @@ public class MainActivity extends BlunoLibrary {
 		serialBegin(115200);
 
 		TextView connectionUpdate = (TextView) findViewById(R.id.connection_updates);
-
+		connectionUpdate.setText("Please connect to device");
 		connectionUpdate.setAlpha(0.5f);
-
+		connectionUpdates = connectionUpdate;
 		wizardState = WizardState.initial;
 
 		connectToDevice = (Button) findViewById(R.id.connect_button);
@@ -249,7 +249,7 @@ public class MainActivity extends BlunoLibrary {
 						}
 					}
 
-					// connectionUpdates.setText(message);
+					 connectionUpdates.setText(message);
 
 				} else {
 					// TODO do we want the user to see this or remove after
