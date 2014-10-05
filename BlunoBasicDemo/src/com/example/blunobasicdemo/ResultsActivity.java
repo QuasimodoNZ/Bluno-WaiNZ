@@ -68,17 +68,17 @@ public class ResultsActivity extends FragmentActivity {
 		
 		int cond = data.CompareConductivity();
 		if (cond !=0){
-		    condPb.setProgress((int)(48-46*(cond/3)));
+		    condPb.setProgress(cond);
 		}
 		else{
-			//TODO error value
+			condPb.setProgress(0);
 		}
 		int tmpr = data.CompareTemperature();
 		if (tmpr !=0){
-		    tempPb.setProgress((int)(48-46*(tmpr/3)));
+		    tempPb.setProgress(tmpr);
 		}
 		else{
-			//TODO error value
+			tempPb.setProgress(0);
 		}
 		
 		TextView condTxt = (TextView) this.findViewById(R.id.cond_val);
