@@ -51,7 +51,7 @@ public class MainActivity extends BlunoLibrary {
 
 		onCreateProcess();
 
-		String currTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+		String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
 				Locale.getDefault()).format(Calendar.getInstance().getTime());
 
 		serialBegin(115200);
@@ -60,6 +60,7 @@ public class MainActivity extends BlunoLibrary {
 		connectionUpdate.setText("Please connect to device");
 		connectionUpdate.setAlpha(0.5f);
 		connectionUpdates = connectionUpdate;
+
 		wizardState = WizardState.initial;
 
 		connectToDevice = (Button) findViewById(R.id.connect_button);
@@ -70,8 +71,8 @@ public class MainActivity extends BlunoLibrary {
 			public void onClick(View v) {
 				JSONObject jason = new JSONObject();
 				try {
+					jason.put("dev", "AD");
 					jason.put("cmd", "init");
-					jason.put("dev", "ad");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -80,7 +81,7 @@ public class MainActivity extends BlunoLibrary {
 			}
 		});
 
-		testWaterQuality = (Button) findViewById(R.id.start_button);
+ 		testWaterQuality = (Button) findViewById(R.id.start_button);
 
 		testWaterQuality.setOnClickListener(new OnClickListener() {
 			@Override
@@ -93,11 +94,11 @@ public class MainActivity extends BlunoLibrary {
 
 				try {
 					j.put("cmd", "test");
-					j.put("session", "ad");
-					String gpsData = String.valueOf(t.getLat()) + " - "
+					j.put("session", "AD");
+					String gpsData = String.valueOf(t.getLat()) + " "
 							+ String.valueOf(t.getLon());
 					j.put("gps", gpsData);
-					String currTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
 							Locale.getDefault()).format(Calendar.getInstance()
 							.getTime());
 
@@ -107,7 +108,7 @@ public class MainActivity extends BlunoLibrary {
 				}
 
 				serialSend(j.toString());
-				// connectionUpdates.setText("Initialising device");
+				connectionUpdates.setText("Initialising device");
 			}
 		});
 
@@ -203,10 +204,10 @@ public class MainActivity extends BlunoLibrary {
 
 					if (status.equalsIgnoreCase("fatal")) {
 						wizardState = WizardState.error;
-						// connectionUpdates.setText("Error in initialising device");
+						connectionUpdates.setText("Error in initialising device");
 					} else if (status.equalsIgnoreCase("idle")) {
 						wizardState = WizardState.idle;
-						// connectionUpdates.setText("Device is idle, please start the test");
+						connectionUpdates.setText("Device is ready, please start the test");
 					} else {
 						// TODO throw exception for unsupported state.
 					}
@@ -229,7 +230,7 @@ public class MainActivity extends BlunoLibrary {
 						startActivity(i);
 
 					} else if (status.equalsIgnoreCase("busy")) {
-						message = "Device is currently busy";
+						message = "Please wait for test results";
 					} else {
 
 						wizardState = WizardState.error;
@@ -250,6 +251,7 @@ public class MainActivity extends BlunoLibrary {
 					}
 
 					 connectionUpdates.setText(message);
+
 
 				} else {
 					// TODO do we want the user to see this or remove after
@@ -295,6 +297,5 @@ public class MainActivity extends BlunoLibrary {
 		default:
 			break;
 		}
-
 	}
 }

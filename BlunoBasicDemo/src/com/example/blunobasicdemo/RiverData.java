@@ -49,6 +49,32 @@ public class RiverData {
 			e.printStackTrace();
 		}
 	}
+	
+	public int CompareConductivity(){
+		if (conductivity > 1500.0){
+			return 3;
+			}
+		else if(conductivity > 1000.0){
+			return 2;
+		}
+		else if (conductivity != Float.NaN){
+			return 1;
+			}
+		return 0;
+	}
+	
+	public int CompareTemperature(){
+		if (temperature < 25.0){
+			return 1;
+		}
+		else if (temperature < 30.0){
+			return 2;
+		}
+		else if (temperature != Float.NaN){
+			return 3;
+		}
+		return 0;
+	}
 
 	public float getTemperature() {
 		return temperature;
@@ -83,7 +109,7 @@ public class RiverData {
 		try {
 			//jason.put("id", id);
 			jason.put("session", session);
-			jason.put("gps", lat.toString() +" - " + lon.toString());
+			jason.put("gps", lat.toString() +" " + lon.toString());
 			jason.put("time", readingDate);
 			jason.put("ec", conductivity);
 			jason.put("temp", temperature);
