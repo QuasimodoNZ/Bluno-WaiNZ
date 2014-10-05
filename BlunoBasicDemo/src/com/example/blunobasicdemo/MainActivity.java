@@ -29,12 +29,9 @@ public class MainActivity extends BlunoLibrary {
 	private Button connectToDevice;
 	private Button testWaterQuality;
 	private TextView connectionUpdates;
-	private TextView serialReceivedText;
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
-	private RiverData river;
-	private UserLocationTracker track;
-
+	
 	public enum WizardState {
 		initial, idle, error, complete
 	};
@@ -50,9 +47,6 @@ public class MainActivity extends BlunoLibrary {
 		setContentView(R.layout.activity_main);
 
 		onCreateProcess();
-
-		String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
-				Locale.getDefault()).format(Calendar.getInstance().getTime());
 
 		serialBegin(115200);
 
@@ -97,7 +91,7 @@ public class MainActivity extends BlunoLibrary {
 					String gpsData = String.valueOf(t.getLat()) + " "
 							+ String.valueOf(t.getLon());
 					j.put("gps", gpsData);
-					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
+					String currTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
 							Locale.getDefault()).format(Calendar.getInstance()
 							.getTime());
 
