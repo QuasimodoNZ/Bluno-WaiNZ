@@ -56,9 +56,9 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200);
 
-		TextView connectionUpdate = (TextView) findViewById(R.id.connection_updates);
+	    connectionUpdates = (TextView) findViewById(R.id.connection_updates);
 
-		connectionUpdate.setAlpha(0.5f);
+		connectionUpdates.setAlpha(0.5f);
 
 		wizardState = WizardState.initial;
 
@@ -94,7 +94,7 @@ public class MainActivity extends BlunoLibrary {
 				try {
 					j.put("cmd", "test");
 					j.put("session", "AD");
-					String gpsData = String.valueOf(t.getLat()) + " -"
+					String gpsData = String.valueOf(t.getLat()) + " "
 							+ String.valueOf(t.getLon());
 					j.put("gps", gpsData);
 					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
@@ -107,7 +107,7 @@ public class MainActivity extends BlunoLibrary {
 				}
 
 				serialSend(j.toString());
-				// connectionUpdates.setText("Initialising device");
+				connectionUpdates.setText("Initialising device");
 			}
 		});
 
@@ -203,10 +203,10 @@ public class MainActivity extends BlunoLibrary {
 
 					if (status.equalsIgnoreCase("fatal")) {
 						wizardState = WizardState.error;
-						// connectionUpdates.setText("Error in initialising device");
+						connectionUpdates.setText("Error in initialising device");
 					} else if (status.equalsIgnoreCase("idle")) {
 						wizardState = WizardState.idle;
-						// connectionUpdates.setText("Device is idle, please start the test");
+						connectionUpdates.setText("Device is ready, please start the test");
 					} else {
 						// TODO throw exception for unsupported state.
 					}
@@ -229,7 +229,7 @@ public class MainActivity extends BlunoLibrary {
 						startActivity(i);
 
 					} else if (status.equalsIgnoreCase("busy")) {
-						message = "Device is currently busy";
+						message = "Please wait for test results";
 					} else {
 
 						wizardState = WizardState.error;
@@ -249,7 +249,7 @@ public class MainActivity extends BlunoLibrary {
 						}
 					}
 
-					// connectionUpdates.setText(message);
+					connectionUpdates.setText(message);
 
 				} else {
 					// TODO do we want the user to see this or remove after
