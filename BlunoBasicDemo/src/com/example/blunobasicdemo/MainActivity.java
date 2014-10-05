@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.LightingColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -26,12 +27,11 @@ public class MainActivity extends BlunoLibrary {
 	public static final String JSON_MESSAGE = "INTENT_MESSAGE_COLLECTED_DATA";
 	private Button buttonScan;
 	private Button historyButton;
-	private Button connectToDevice;
 	private Button testWaterQuality;
 	private TextView connectionUpdates;
 	private connectionStateEnum connectionState;
 	private WizardState wizardState;
-	
+
 	public enum WizardState {
 		initial, idle, error, complete
 	};
@@ -50,31 +50,13 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200);
 
-	    connectionUpdates = (TextView) findViewById(R.id.connection_updates);
+		connectionUpdates = (TextView) findViewById(R.id.connection_updates);
 
 		connectionUpdates.setAlpha(0.5f);
 
 		wizardState = WizardState.initial;
 
-		connectToDevice = (Button) findViewById(R.id.connect_button);
-
-		connectToDevice.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				JSONObject jason = new JSONObject();
-				try {
-					jason.put("dev", "AD");
-					jason.put("cmd", "init");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				serialSend(jason.toString());
-
-			}
-		});
-
- 		testWaterQuality = (Button) findViewById(R.id.start_button);
+		testWaterQuality = (Button) findViewById(R.id.start_button);
 
 		testWaterQuality.setOnClickListener(new OnClickListener() {
 			@Override
@@ -91,9 +73,9 @@ public class MainActivity extends BlunoLibrary {
 					String gpsData = String.valueOf(t.getLat()) + " "
 							+ String.valueOf(t.getLon());
 					j.put("gps", gpsData);
-					String currTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
-							Locale.getDefault()).format(Calendar.getInstance()
-							.getTime());
+					String currTime = new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+							.format(Calendar.getInstance().getTime());
 
 					j.put("time", currTime);
 				} catch (JSONException e) {
@@ -102,6 +84,10 @@ public class MainActivity extends BlunoLibrary {
 
 				serialSend(j.toString());
 				connectionUpdates.setText("Initialising device");
+				testWaterQuality.setEnabled(false);
+				testWaterQuality.setBackgroundColor(getResources().getColor(
+						R.color.LightGrey));
+
 			}
 		});
 
@@ -111,7 +97,7 @@ public class MainActivity extends BlunoLibrary {
 
 			@Override
 			public void onClick(View v) {
-				buttonScanOnClickProcess();
+				buttonScanOnClickProcess(MainActivity.this);
 			}
 		});
 
@@ -137,7 +123,6 @@ public class MainActivity extends BlunoLibrary {
 					@Override
 					public void onClick(View v) {
 						onBackPressed();
-
 					}
 				});
 	}
@@ -197,10 +182,12 @@ public class MainActivity extends BlunoLibrary {
 
 					if (status.equalsIgnoreCase("fatal")) {
 						wizardState = WizardState.error;
-						connectionUpdates.setText("Error in initialising device");
+						connectionUpdates
+								.setText("Error in initialising device");
 					} else if (status.equalsIgnoreCase("idle")) {
 						wizardState = WizardState.idle;
-						connectionUpdates.setText("Device is ready, please start the test");
+						connectionUpdates
+								.setText("Device is ready, please start the test");
 					} else {
 						// TODO throw exception for unsupported state.
 					}
@@ -220,6 +207,11 @@ public class MainActivity extends BlunoLibrary {
 
 						i.putExtra("RiverData", j.toString());
 
+						testWaterQuality.setEnabled(true);
+						testWaterQuality.getBackground().setColorFilter(
+								new LightingColorFilter(
+										R.color.back_button_start_colour,
+										R.color.back_button_end_colour));
 						startActivity(i);
 
 					} else if (status.equalsIgnoreCase("busy")) {
@@ -273,6 +265,20 @@ public class MainActivity extends BlunoLibrary {
 
 		case isConnected:
 			buttonScan.setText("Connected");
+			JSONObject jason = new JSONObject();
+			try {
+				jason.put("dev", "AD");
+				jason.put("cmd", "init");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			serialSend(jason.toString());
+			buttonScan.setVisibility(View.GONE);
+			testWaterQuality.setVisibility(View.VISIBLE);
+			testWaterQuality.setEnabled(true);
+			testWaterQuality.setBackgroundResource(R.drawable.riverwatch_button);
+
+
 			break;
 		case isConnecting:
 			buttonScan.setText("Connecting");
@@ -285,6 +291,11 @@ public class MainActivity extends BlunoLibrary {
 			break;
 		case isDisconnecting:
 			buttonScan.setText("isDisconnecting");
+			buttonScan.setVisibility(View.VISIBLE);
+			testWaterQuality.setVisibility(View.GONE);
+			testWaterQuality.setBackgroundColor(getResources().getColor(
+					R.color.LightGrey));
+
 			break;
 		default:
 			break;
