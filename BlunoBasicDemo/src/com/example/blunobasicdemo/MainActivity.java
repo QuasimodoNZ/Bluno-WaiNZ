@@ -70,8 +70,8 @@ public class MainActivity extends BlunoLibrary {
 			public void onClick(View v) {
 				JSONObject jason = new JSONObject();
 				try {
+					jason.put("dev", "AD");
 					jason.put("cmd", "init");
-					jason.put("dev", "ad");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -93,8 +93,8 @@ public class MainActivity extends BlunoLibrary {
 
 				try {
 					j.put("cmd", "test");
-					j.put("session", "ad");
-					String gpsData = String.valueOf(t.getLat()) + " "
+					j.put("session", "AD");
+					String gpsData = String.valueOf(t.getLat()) + " -"
 							+ String.valueOf(t.getLon());
 					j.put("gps", gpsData);
 					String currTime = new SimpleDateFormat("yyyyMMdd_HHmmss",
@@ -216,7 +216,7 @@ public class MainActivity extends BlunoLibrary {
 
 					String message = "";
 
-					if (status.equalsIgnoreCase("idle")) {
+					if (status.equalsIgnoreCase("complete")) {
 
 						wizardState = WizardState.complete;
 
