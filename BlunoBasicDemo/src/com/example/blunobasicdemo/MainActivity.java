@@ -9,17 +9,10 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends BlunoLibrary {
@@ -29,7 +22,6 @@ public class MainActivity extends BlunoLibrary {
 	private Button connectToDevice;
 	private Button testWaterQuality;
 	private TextView connectionUpdates;
-	private connectionStateEnum connectionState;
 	private WizardState wizardState;
 	
 	public enum WizardState {
@@ -202,7 +194,7 @@ public class MainActivity extends BlunoLibrary {
 						wizardState = WizardState.idle;
 						connectionUpdates.setText("Device is ready, please start the test");
 					} else {
-						// TODO throw exception for unsupported state.
+						throw new AssertionError("UNKNOWN STATE");
 					}
 
 				} else if (WizardState.idle == wizardState) {

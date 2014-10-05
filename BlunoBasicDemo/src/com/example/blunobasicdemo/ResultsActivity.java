@@ -70,10 +70,22 @@ public class ResultsActivity extends FragmentActivity {
 		if (cond !=0){
 		    condPb.setProgress((int)(48-46*(cond/3)));
 		}
+		else{
+			//TODO error value
+		}
 		int tmpr = data.CompareTemperature();
 		if (tmpr !=0){
 		    tempPb.setProgress((int)(48-46*(tmpr/3)));
 		}
+		else{
+			//TODO error value
+		}
+		
+		TextView condTxt = (TextView) this.findViewById(R.id.cond_val);
+		condTxt.setText("Conductivity: " + data.getConductivity());
+		
+		TextView tmprTxt = (TextView) this.findViewById(R.id.tmpr_val);
+		tmprTxt.setText("Temperature: " + data.getTemperature());
 
 		TextView latlon = (TextView) this.findViewById(R.id.lat_long);
 		latlon.setText("Lat/Long: " + data.getLat()  + ", " + data.getLon());
