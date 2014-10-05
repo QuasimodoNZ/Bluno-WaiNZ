@@ -43,8 +43,6 @@ public class ResultsActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		 //Remove title bar
-	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_results);
 
@@ -65,7 +63,7 @@ public class ResultsActivity extends FragmentActivity {
 
 		ProgressBar condPb = (ProgressBar) this.findViewById(R.id.conductivity_progress);
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
-		
+
 		int cond = data.CompareConductivity();
 		if (cond !=0){
 		    condPb.setProgress((int)(48-46*(cond/3)));
@@ -74,6 +72,15 @@ public class ResultsActivity extends FragmentActivity {
 		if (tmpr !=0){
 		    tempPb.setProgress((int)(48-46*(tmpr/3)));
 		}
+<<<<<<< Updated upstream
+=======
+
+		TextView condTxt = (TextView) this.findViewById(R.id.cond_val);
+		condTxt.setText("Conductivity: " + data.getConductivity());
+
+		TextView tmprTxt = (TextView) this.findViewById(R.id.tmpr_val);
+		tmprTxt.setText("Temperature: " + data.getTemperature());
+>>>>>>> Stashed changes
 
 		TextView latlon = (TextView) this.findViewById(R.id.lat_long);
 		latlon.setText("Lat/Long: " + data.getLat()  + ", " + data.getLon());
@@ -124,16 +131,6 @@ public class ResultsActivity extends FragmentActivity {
 			}
 		});
 
-		// Sets the back button so that it returns to the previous page
-				((Button) findViewById(R.id.backButton))
-					.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							onBackPressed();
-
-						}
-				});
 
 	}
 /*
@@ -165,10 +162,7 @@ public class ResultsActivity extends FragmentActivity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
+
 		return super.onOptionsItemSelected(item);
 	}
 }

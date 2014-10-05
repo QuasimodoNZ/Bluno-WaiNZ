@@ -24,7 +24,6 @@ public class HistoryActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_history);
 
@@ -52,17 +51,6 @@ public class HistoryActivity extends Activity {
 		listView.setAdapter(adapter);
 
 		adapter.notifyDataSetChanged();
-
-		// Sets the back button so that it returns to the previous page
-				((Button) findViewById(R.id.backButton))
-					.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							onBackPressed();
-
-						}
-				});
 
 	}
 }

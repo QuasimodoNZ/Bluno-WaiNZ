@@ -9,11 +9,15 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.content.Intent;
+<<<<<<< Updated upstream
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+=======
+import android.graphics.PorterDuff.Mode;
+>>>>>>> Stashed changes
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -45,7 +49,6 @@ public class MainActivity extends BlunoLibrary {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
@@ -137,6 +140,7 @@ public class MainActivity extends BlunoLibrary {
 
 		});
 
+<<<<<<< Updated upstream
 		// Sets the back button so that it returns to the previous page
 		((Button) findViewById(R.id.backButton))
 				.setOnClickListener(new OnClickListener() {
@@ -147,6 +151,8 @@ public class MainActivity extends BlunoLibrary {
 
 					}
 				});
+=======
+>>>>>>> Stashed changes
 	}
 
 	protected void onResume() {
