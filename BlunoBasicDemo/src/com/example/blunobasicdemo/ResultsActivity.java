@@ -72,15 +72,6 @@ public class ResultsActivity extends FragmentActivity {
 		if (tmpr !=0){
 		    tempPb.setProgress((int)(48-46*(tmpr/3)));
 		}
-<<<<<<< Updated upstream
-=======
-
-		TextView condTxt = (TextView) this.findViewById(R.id.cond_val);
-		condTxt.setText("Conductivity: " + data.getConductivity());
-
-		TextView tmprTxt = (TextView) this.findViewById(R.id.tmpr_val);
-		tmprTxt.setText("Temperature: " + data.getTemperature());
->>>>>>> Stashed changes
 
 		TextView latlon = (TextView) this.findViewById(R.id.lat_long);
 		latlon.setText("Lat/Long: " + data.getLat()  + ", " + data.getLon());
