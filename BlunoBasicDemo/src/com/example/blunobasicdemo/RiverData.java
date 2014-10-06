@@ -3,8 +3,6 @@ package com.example.blunobasicdemo;
 import org.json.*;
 
 import android.content.Context;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 public class RiverData {
 
@@ -49,7 +47,7 @@ public class RiverData {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int CompareConductivity(){
 		if (conductivity > 1500.0){
 			return 2;
@@ -62,7 +60,7 @@ public class RiverData {
 			}
 		return 0;
 	}
-	
+
 	public int CompareTemperature(){
 		if (temperature < 25.0){
 			return 46;
@@ -94,10 +92,6 @@ public class RiverData {
 
 	public String getReadingDate() {
 		return readingDate;
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public String getSession() {

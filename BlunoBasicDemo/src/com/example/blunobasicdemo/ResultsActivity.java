@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +40,7 @@ public class ResultsActivity extends FragmentActivity {
 	private Button discardData;
 
 	//DATA
-	private JSONObject jason;
+	private static JSONObject jason;
 
 	//private Map<String, String> data = new HashMap<String, String>();
 
@@ -59,6 +63,7 @@ public class ResultsActivity extends FragmentActivity {
 		ProgressBar tempPb = (ProgressBar) this.findViewById(R.id.temperature_progress);
 
 		int cond = data.CompareConductivity();
+
 		if (cond !=0){
 		    condPb.setProgress(cond);
 		}
@@ -108,6 +113,8 @@ public class ResultsActivity extends FragmentActivity {
 			public void onClick(View v) {
 
 				//TODO Send data to the website
+				Intent i = new Intent(ResultsActivity.this, HistoryActivity.class);
+				startActivity(i);
 			}
 		});
 
@@ -116,13 +123,7 @@ public class ResultsActivity extends FragmentActivity {
 		discardData.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//TODO do we need some kind of check ("Are you sure you want to delete this data")
 
-				//Remove the submission
-				//SubmissionSaver.removeEntry(Integer.parseInt(data.get("entryID")), ResultsActivity.this);
-
-				//Redirect the user back to the history page?
-				//TODO or should this be the main page?
 				Intent i = new Intent(ResultsActivity.this, HistoryActivity.class);
 				startActivity(i);
 			}
@@ -130,22 +131,6 @@ public class ResultsActivity extends FragmentActivity {
 
 
 	}
-/*
-	/**
-	 * Takes the given JSON object and puts it into the map for use in the activity
-	 * @param json The object containing the results data
-	 * @throws JSONException
-
-	private void parseJSON(JSONObject json) throws JSONException {
-		this.data.put("conductivity", json.getString("conductivity"));
-		this.data.put("temperature", json.getString("temperature"));
-		//this.data.put("deviceID", json.getString("deviceID"));
-		//this.data.put("entryID", json.getString("entryID"));
-		this.data.put("time", json.getString("time"));
-		this.data.put("date", json.getString("date"));
-		this.data.put("location", json.getString("gps"));
-	}
-	*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -161,5 +146,26 @@ public class ResultsActivity extends FragmentActivity {
 		// as you specify a parent activity in AndroidManifest.xml.
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	public static void execute() {
+		HttpResponse response = makeRequest("http://www.wainz.org.nz/api/image", jason.toString());
+		if(response != null)
+		System.out.println(response.getParams());
+		else
+		System.out.println("something went wrong");
+	}
+
+	public static HttpResponse makeRequest(String uri, String json) {
+	    try {
+	        HttpPost httpPost = new HttpPost(uri);
+	        httpPost.setEntity(new StringEntity(json));
+	        httpPost.setHeader("Accept", "application/json");
+	        httpPost.setHeader("Content-type", "application/json");
+	        return new DefaultHttpClient().execute(httpPost);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return null;
 	}
 }

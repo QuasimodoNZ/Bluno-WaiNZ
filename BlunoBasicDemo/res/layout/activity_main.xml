@@ -32,7 +32,7 @@
         <Button
             android:id="@+id/scan_button"
             style="@style/riverWatchButtonStyle"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/bluno_connect"
             android:layout_margin="15dp"/>
@@ -43,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/start_title"
+            android:layout_margin="15dp"
             android:visibility="gone"/> />
 
         <Button
