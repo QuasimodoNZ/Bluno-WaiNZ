@@ -67,7 +67,7 @@ public class HistoryAdapter extends BaseAdapter {
             animation.start();
         }
         else
-        	health.setProgress(r.nextInt(100));
+        	health.setProgress(data.CompareRiver());
 
         convertView.setOnClickListener(new OnClickListener(){
 

@@ -37,7 +37,6 @@ public abstract  class BlunoLibrary  extends FragmentActivity{
 	private Context mainContext=this;
 
 
-
 	public abstract void onConectionStateChange(connectionStateEnum theconnectionStateEnum);
 
 	public abstract void onSerialReceived(String theString);
