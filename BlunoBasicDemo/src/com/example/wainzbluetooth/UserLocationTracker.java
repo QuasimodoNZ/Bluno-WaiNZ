@@ -14,39 +14,36 @@ import android.os.IBinder;
 import android.provider.Settings;
 
 public class UserLocationTracker extends Service implements LocationListener{
-	
+
 	private final Context context;
-	
+
 	boolean gpsEnabled;
-	
 	boolean networkEnabled;
-	
 	boolean systemError;
-	
 	boolean canGetLocation;
-	
+
 	Location location;
-	
+
 	float lat, lon;
-	
+
 	private static final float minChangeForUpdate = 10;
 	private static final long minTimeBetweenUpdates = 60000;
-	
+
 	protected LocationManager locationManager;
-	
+
 	public UserLocationTracker(Context context){
 		this.context = context;
 		getLocation();
 	}
-	
+
 	@SuppressLint("InlinedApi")
 	public Location getLocation(){
 		locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-		
+
 		gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-	
+
 		networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-		
+
 		if(!gpsEnabled && !networkEnabled){
 			//something has gone terribly wrong.
 		} else {
@@ -63,7 +60,7 @@ public class UserLocationTracker extends Service implements LocationListener{
 					}
 				}
 			}
-			
+
 			if(networkEnabled){
 				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTimeBetweenUpdates, minChangeForUpdate, this);
 				if(locationManager != null){
@@ -77,19 +74,19 @@ public class UserLocationTracker extends Service implements LocationListener{
 		}
 		return location;
 	}
-	
+
 	public float getLat(){
 		return (location != null) ? (float)location.getLatitude() : lat;
 	}
-	
+
 	public float getLon(){
 		return (location != null) ? (float)location.getLongitude() : lon;
 	}
-	
+
 	public boolean canGetLocation(){
 		return this.canGetLocation;
 	}
-	
+
     /**
      * Function to show settings alert dialog
      * On pressing Settings button will launch Settings Options
@@ -121,30 +118,30 @@ public class UserLocationTracker extends Service implements LocationListener{
         // Showing Alert Message
         alertDialog.show();
     }
-    
-	
+
+
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

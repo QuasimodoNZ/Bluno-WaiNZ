@@ -125,7 +125,7 @@ public class ResultsActivity extends FragmentActivity {
 		discardData.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				System.out.println(SubmissionSaver.removeEntry(jason, ResultsActivity.this));
 				Intent i = new Intent(ResultsActivity.this, HistoryActivity.class);
 				startActivity(i);
 			}
