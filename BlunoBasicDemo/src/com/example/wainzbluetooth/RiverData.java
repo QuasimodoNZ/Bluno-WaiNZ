@@ -74,6 +74,12 @@ public class RiverData {
 		return 0;
 	}
 
+	public int CompareRiver(){
+		int temp = CompareTemperature();
+		int cond = CompareConductivity();
+		return (temp+cond);
+	}
+
 	public float getTemperature() {
 		return temperature;
 	}

@@ -54,13 +54,14 @@ public class HistoryAdapter extends BaseAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.list_row, null);
 
+        // getting RiverData data for the row
         RiverData data = RiverDataItems.get(position);
 
         ProgressBar health = (ProgressBar) convertView.findViewById(R.id.progressBar2);
 
         Random r = new Random();
         if(android.os.Build.VERSION.SDK_INT >= 11){
-            ObjectAnimator animation = ObjectAnimator.ofInt(health, "progress", 0, r.nextInt(100));
+            ObjectAnimator animation = ObjectAnimator.ofInt(health, "progress", 0, data.CompareRiver());
             animation.setDuration(1000);
             animation.setInterpolator(new DecelerateInterpolator());
             animation.start();
@@ -78,8 +79,6 @@ public class HistoryAdapter extends BaseAdapter {
 			}});
 
         TextView date = (TextView) convertView.findViewById(R.id.date);
-
-        // getting RiverData data for the row
 
         if(date != null)
 
