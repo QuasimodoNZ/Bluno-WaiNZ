@@ -1,5 +1,6 @@
 <resources>
-
+	<color name="button">#4285F4</color>
+	<color name="button_pressed">#78A9FA</color>
     <color name="back_button_start_colour">#EE5F5B</color>
     <color name="back_button_end_colour">#BD3625</color>
     <color name="done_button_start_colour">#62C462</color>
@@ -129,7 +130,7 @@
     <color name="BlueViolet">#8A2BE2</color>
     <color name="LightSkyBlue">#87CEFA</color>
     <color name="SkyBlue">#87CEEB</color>
-    <color name="Gray">#808080</color>
+    <color name="Gray">#BEBEBE</color>
     <color name="Olive">#808000</color>
     <color name="Purple">#800080</color>
     <color name="Maroon">#800000</color>

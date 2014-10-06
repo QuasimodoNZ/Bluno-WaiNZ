@@ -37,11 +37,6 @@ public abstract  class BlunoLibrary  extends FragmentActivity{
 	private Context mainContext=this;
 
 
-//	public BlunoLibrary(Context theContext) {
-//
-//		mainContext=theContext;
-//	}
-
 
 	public abstract void onConectionStateChange(connectionStateEnum theconnectionStateEnum);
 

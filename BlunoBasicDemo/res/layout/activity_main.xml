@@ -3,7 +3,7 @@
     android:id="@+id/main_frame"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-
+	android:background="@color/LightGrey"
     android:orientation="vertical"
     tools:context=".MainActivity" >
  <!--   android:background="@drawable/tomassobek" -->
@@ -23,7 +23,7 @@
                 android:id="@+id/connection_updates"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:background="@color/White"
+                android:background="@drawable/card_background"
                 android:padding="30dp"
                 android:text="Press the connect button to start."
                 android:textSize="30sp" />
@@ -38,20 +38,12 @@
             android:layout_margin="15dp"/>
 
         <Button
-            android:id="@+id/connect_button"
-            style="@style/riverWatchButtonStyle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_connect" />
-
-        <Button
             android:id="@+id/start_button"
             style="@style/riverWatchButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/start_title"
-            android:visibility="gone"
-            android:layout_margin="15dp" />
+            android:visibility="gone"/> />
 
         <Button
             android:id="@+id/history_button"

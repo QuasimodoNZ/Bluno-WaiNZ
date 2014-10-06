@@ -52,26 +52,26 @@ public class RiverData {
 	
 	public int CompareConductivity(){
 		if (conductivity > 1500.0){
-			return 3;
+			return 2;
 			}
 		else if(conductivity > 1000.0){
-			return 2;
+			return 23;
 		}
 		else if (conductivity != Float.NaN){
-			return 1;
+			return 46;
 			}
 		return 0;
 	}
 	
 	public int CompareTemperature(){
 		if (temperature < 25.0){
-			return 1;
+			return 46;
 		}
 		else if (temperature < 30.0){
-			return 2;
+			return 23;
 		}
 		else if (temperature != Float.NaN){
-			return 3;
+			return 2;
 		}
 		return 0;
 	}
