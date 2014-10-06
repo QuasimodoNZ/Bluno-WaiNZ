@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -57,5 +58,10 @@ public class HistoryActivity extends Activity {
 			adapter.notifyDataSetChanged();
 		}
 
+	}
+
+	public void onBackPressed(){
+	     Intent i = new Intent(HistoryActivity.this, MainActivity.class);
+	     startActivity(i);
 	}
 }

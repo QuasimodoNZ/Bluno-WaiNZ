@@ -111,7 +111,7 @@ public class ResultsActivity extends FragmentActivity {
 		submitData.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				execute();
 				//TODO Send data to the website
 				Intent i = new Intent(ResultsActivity.this, HistoryActivity.class);
 				startActivity(i);
@@ -168,4 +168,10 @@ public class ResultsActivity extends FragmentActivity {
 	    }
 	    return null;
 	}
+
+	public void onBackPressed(){
+	     Intent i = new Intent(ResultsActivity.this, MainActivity.class);
+	     startActivity(i);
+	}
+
 }

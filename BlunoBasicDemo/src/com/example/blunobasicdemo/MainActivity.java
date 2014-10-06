@@ -79,7 +79,7 @@ public class MainActivity extends BlunoLibrary {
 				connectionUpdates.setText("Initialising device");
 				testWaterQuality.setEnabled(false);
 				testWaterQuality.setBackgroundColor(getResources().getColor(
-						R.color.LightGrey));
+						R.color.button_pressed));
 
 			}
 		});
@@ -181,7 +181,7 @@ public class MainActivity extends BlunoLibrary {
 
 					if (status.equalsIgnoreCase("complete")) {
 
-						wizardState = WizardState.complete;
+						wizardState = WizardState.idle;
 
 						SubmissionSaver.saveSubmission(j, this);
 
@@ -274,7 +274,7 @@ public class MainActivity extends BlunoLibrary {
 			buttonScan.setVisibility(View.VISIBLE);
 			testWaterQuality.setVisibility(View.GONE);
 			testWaterQuality.setBackgroundColor(getResources().getColor(
-					R.color.LightGrey));
+					R.color.button_pressed));
 
 			break;
 		default:
