@@ -55,7 +55,6 @@ public class HistoryAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.list_row, null);
 
         RiverData data = RiverDataItems.get(position);
-        //so we probably want to change most of this
 
         ProgressBar health = (ProgressBar) convertView.findViewById(R.id.progressBar2);
 
@@ -81,7 +80,6 @@ public class HistoryAdapter extends BaseAdapter {
         TextView date = (TextView) convertView.findViewById(R.id.date);
 
         // getting RiverData data for the row
-
 
         if(date != null)
 
