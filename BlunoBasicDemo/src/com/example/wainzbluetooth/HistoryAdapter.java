@@ -53,7 +53,6 @@ public class HistoryAdapter extends BaseAdapter {
 
         if (convertView == null)
             convertView = inflater.inflate(R.layout.list_row, null);
-
         
         // getting RiverData data for the row
         RiverData data = RiverDataItems.get(position);
@@ -85,11 +84,6 @@ public class HistoryAdapter extends BaseAdapter {
 
         date.setText("Reading taken on: " + data.readingDate);
 
-        //do something...
-
-        //set button listener
-
-        //
         return convertView;
     }
 

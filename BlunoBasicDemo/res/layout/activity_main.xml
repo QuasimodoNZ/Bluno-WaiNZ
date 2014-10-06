@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/bluno_connect"
-            android:layout_margin="15dp"/>
+            android:layout_margin="10dp"/>
 
         <Button
             android:id="@+id/start_button"
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/start_title"
-            android:layout_margin="15dp"
+            android:layout_margin="10dp"
             android:visibility="gone"/> />
 
         <Button
@@ -52,7 +52,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/history_title"
-            android:layout_margin="15dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
     </LinearLayout>
 
 </FrameLayout>
