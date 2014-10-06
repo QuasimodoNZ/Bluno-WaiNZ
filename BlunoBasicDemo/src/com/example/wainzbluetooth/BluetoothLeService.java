@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.blunobasicdemo;
+package com.example.wainzbluetooth;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;

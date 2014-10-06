@@ -1,4 +1,4 @@
-package com.example.blunobasicdemo;
+package com.example.wainzbluetooth;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

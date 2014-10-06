@@ -1,4 +1,4 @@
-package com.example.blunobasicdemo;
+package com.example.wainzbluetooth;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +11,8 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.example.wainzbluetooth.R;
 
 import android.app.Activity;
 import android.content.Context;

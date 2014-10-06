@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.blunobasicdemo"
+    package="com.example.wainzbluetooth"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -52,17 +52,17 @@
         </activity>
 
         <activity
-            android:name=".HistoryActivity"
+            android:name="com.example.wainzbluetooth.HistoryActivity"
             android:label="History"
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name=".ResultsActivity"
+            android:name="com.example.wainzbluetooth.ResultsActivity"
             android:label="Results"
             android:screenOrientation="portrait"></activity>
 
         <service
-            android:name=".BluetoothLeService"
+            android:name="com.example.wainzbluetooth.BluetoothLeService"
             android:enabled="true" />
 
         <meta-data

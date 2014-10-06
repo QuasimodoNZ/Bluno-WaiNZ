@@ -1,9 +1,9 @@
-package com.example.blunobasicdemo;
+package com.example.wainzbluetooth;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.blunobasicdemo.R;
+import com.example.wainzbluetooth.R;
 
 import android.os.Handler;
 import android.os.IBinder;

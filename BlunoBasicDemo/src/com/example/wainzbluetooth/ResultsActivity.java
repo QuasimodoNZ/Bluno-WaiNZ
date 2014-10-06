@@ -1,4 +1,4 @@
-package com.example.blunobasicdemo;
+package com.example.wainzbluetooth;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +10,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.example.wainzbluetooth.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -79,10 +81,10 @@ public class ResultsActivity extends FragmentActivity {
 		}
 
 		TextView condTxt = (TextView) this.findViewById(R.id.cond_val);
-		condTxt.setText("Conductivity: " + data.getConductivity());
+		condTxt.setText("Conductivity: " + data.getConductivity()+"μS/cm");
 
 		TextView tmprTxt = (TextView) this.findViewById(R.id.tmpr_val);
-		tmprTxt.setText("Temperature: " + data.getTemperature());
+		tmprTxt.setText("Temperature: " + data.getTemperature()+"°C");
 
 		TextView latlon = (TextView) this.findViewById(R.id.lat_long);
 		latlon.setText("Lat/Long: " + data.getLat()  + ", " + data.getLon());

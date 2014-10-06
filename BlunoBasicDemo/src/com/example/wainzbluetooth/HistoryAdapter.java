@@ -1,7 +1,9 @@
-package com.example.blunobasicdemo;
+package com.example.wainzbluetooth;
 
 import java.util.List;
 import java.util.Random;
+
+import com.example.wainzbluetooth.R;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;

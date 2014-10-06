@@ -1,4 +1,4 @@
-package com.example.blunobasicdemo;
+package com.example.wainzbluetooth;
 
 @SuppressWarnings("unchecked")
 public class RingBuffer<T> {

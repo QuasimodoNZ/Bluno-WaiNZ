@@ -1,4 +1,4 @@
-package com.example.blunobasicdemo;
+package com.example.wainzbluetooth;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.example.wainzbluetooth.R;
 
 import android.os.Bundle;
 import android.content.Intent;
