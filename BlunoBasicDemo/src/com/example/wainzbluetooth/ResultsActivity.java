@@ -1,9 +1,5 @@
 package com.example.wainzbluetooth;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -13,25 +9,16 @@ import org.json.JSONObject;
 
 import com.example.wainzbluetooth.R;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.provider.ContactsContract.Data;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -97,13 +84,14 @@ public class ResultsActivity extends FragmentActivity {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+		/*
 		UserLocationTracker t = new UserLocationTracker(getApplicationContext());
 		t.getLocation();
-
+		*/
 		MapFragment map = new MapFragment();
 
-		map.lat = t.getLat();
-		map.lon = t.getLon();
+		map.lat = data.getLat();
+		map.lon = data.getLon();
 
 		fragmentTransaction.add(R.id.results_map_frame, map);
 		fragmentTransaction.commit();
@@ -114,7 +102,6 @@ public class ResultsActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				execute();
-				//TODO Send data to the website
 				Intent i = new Intent(ResultsActivity.this, HistoryActivity.class);
 				startActivity(i);
 			}

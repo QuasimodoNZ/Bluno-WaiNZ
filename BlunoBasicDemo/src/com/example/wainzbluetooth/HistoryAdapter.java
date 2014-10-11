@@ -1,11 +1,9 @@
 package com.example.wainzbluetooth;
 
 import java.util.List;
-import java.util.Random;
-
 import com.example.wainzbluetooth.R;
-
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +15,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 
 public class HistoryAdapter extends BaseAdapter {
     private Activity activity;
@@ -44,7 +41,8 @@ public class HistoryAdapter extends BaseAdapter {
         return position;
     }
 
-    @Override
+    @SuppressLint("InflateParams")
+	@Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (inflater == null)
@@ -54,12 +52,12 @@ public class HistoryAdapter extends BaseAdapter {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.list_row, null);
 
-        // getting RiverData data for the row
+        //Get the riverdata at the current position
         RiverData data = RiverDataItems.get(position);
 
         ProgressBar health = (ProgressBar) convertView.findViewById(R.id.progressBar2);
-
-        Random r = new Random();
+        //If the android version is less then 12 we can't use animations when populating the list, then again the app doesn't actually support
+        //anything lower the 18/19 cause LE, so yeah yay for android support we don't need.
         if(android.os.Build.VERSION.SDK_INT >= 11){
             ObjectAnimator animation = ObjectAnimator.ofInt(health, "progress", 0, data.CompareRiver());
             animation.setDuration(1000);
@@ -68,7 +66,7 @@ public class HistoryAdapter extends BaseAdapter {
         }
         else
         	health.setProgress(data.CompareRiver());
-
+        //Links to the results page when the list item is clicked.
         convertView.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -77,7 +75,7 @@ public class HistoryAdapter extends BaseAdapter {
 				i.putExtra("RiverData", RiverDataItems.get(position).toJson().toString());
 				activity.startActivity(i);
 			}});
-
+        
         TextView date = (TextView) convertView.findViewById(R.id.date);
 
         if(date != null)

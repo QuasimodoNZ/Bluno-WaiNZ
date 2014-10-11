@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -42,17 +41,16 @@ public class MainActivity extends BlunoLibrary {
 
 		serialBegin(115200);
 
-
 		TextView connectionUpdate = (TextView) findViewById(R.id.connection_updates);
 		connectionUpdate.setText("Please connect to device");
 		connectionUpdate.setAlpha(0.5f);
 		connectionUpdates = connectionUpdate;
 
-
 		wizardState = WizardState.initial;
 
 		testWaterQuality = (Button) findViewById(R.id.start_button);
-
+		//Here we are sending the start test command to the bluetooth device, because one of the teams wanted to save the location
+		//and time to a sd card we include this information in the start message
 		testWaterQuality.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -149,6 +147,8 @@ public class MainActivity extends BlunoLibrary {
 	@Override
 	public void onSerialReceived(String data) {
 		// Once connection data received, this function will be called
+		// We need to keep listening until we get the complete message (data is recieved 20bytes at a time)
+		// Once it is fully read we will choose the correct action to take (move to results or set the device to idle)
 		if (!data.contains("}")) {
 			message += data;
 		} else {

@@ -1,27 +1,14 @@
 package com.example.wainzbluetooth;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.example.wainzbluetooth.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 
 public class HistoryActivity extends Activity {
@@ -37,6 +24,7 @@ public class HistoryActivity extends Activity {
 
 		SubmissionSaver s = new SubmissionSaver();
 
+		@SuppressWarnings("static-access")
 		JSONArray json = s.getJsonArray(c);
 
 		// json = new JSONArray();
